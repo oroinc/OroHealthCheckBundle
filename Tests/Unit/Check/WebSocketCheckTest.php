@@ -3,39 +3,29 @@
 namespace Oro\Bundle\HealthCheckBundle\Tests\Unit\Check;
 
 use Oro\Bundle\HealthCheckBundle\Check\WebSocketCheck;
-use Oro\Bundle\SyncBundle\Wamp\TopicPublisher;
+use Oro\Bundle\SyncBundle\Client\ConnectionChecker;
 use ZendDiagnostics\Result\Failure;
 use ZendDiagnostics\Result\Success;
 
 class WebSocketCheckTest extends \PHPUnit_Framework_TestCase
 {
-    /** @var TopicPublisher|\PHPUnit_Framework_MockObject_MockObject */
-    protected $topicPublisher;
+    /** @var ConnectionChecker|\PHPUnit_Framework_MockObject_MockObject */
+    protected $connectionChecker;
 
     /** @var WebSocketCheck */
     protected $check;
 
     protected function setUp()
     {
-        $this->topicPublisher = $this->createMock(TopicPublisher::class);
+        $this->connectionChecker = $this->createMock(ConnectionChecker::class);
 
-        $this->check = new WebSocketCheck([$this->topicPublisher]);
-    }
-
-    public function testException()
-    {
-        $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage(
-            'Topic publisher must be instance of "Oro\Bundle\SyncBundle\Wamp\TopicPublisher", "stdClass" given.'
-        );
-
-        $this->check = new WebSocketCheck([new \stdClass()]);
+        $this->check = new WebSocketCheck($this->connectionChecker);
     }
 
     public function testCheck()
     {
-        $this->topicPublisher->expects($this->once())
-            ->method('check')
+        $this->connectionChecker->expects($this->once())
+            ->method('checkConnection')
             ->willReturn(true);
 
         $this->assertEquals(new Success(), $this->check->check());
@@ -43,8 +33,8 @@ class WebSocketCheckTest extends \PHPUnit_Framework_TestCase
 
     public function testCheckFailure()
     {
-        $this->topicPublisher->expects($this->once())
-            ->method('check')
+        $this->connectionChecker->expects($this->once())
+            ->method('checkConnection')
             ->willReturn(false);
 
         $this->assertEquals(new Failure('Not available'), $this->check->check());

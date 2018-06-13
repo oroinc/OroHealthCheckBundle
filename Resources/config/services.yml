@@ -68,13 +68,12 @@ services:
         calls:
             - ['setTicketProvider', ['@oro_sync.authentication.ticket_provider']]
 
-    # WebSockets now not supported
-    #oro_health_check.check.websocket:
-    #    class: Oro\Bundle\HealthCheckBundle\Check\WebSocketCheck
-    #    arguments:
-    #        - ['@oro_wamp.publisher', '@oro_health_check.ws_publisher.frontend']
-    #    tags:
-    #        - { name: liip_monitor.check, alias: websocket }
+    oro_health_check.check.websocket:
+        class: Oro\Bundle\HealthCheckBundle\Check\WebSocketCheck
+        arguments:
+            - '@oro_sync.client.connection_checker'
+        tags:
+            - { name: liip_monitor.check, alias: websocket }
 
     oro_health_check.check.maintenance_mode:
         class: Oro\Bundle\HealthCheckBundle\Check\MaintenanceModeCheck

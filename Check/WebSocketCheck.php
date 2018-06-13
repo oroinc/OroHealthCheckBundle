@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\HealthCheckBundle\Check;
 
-use Oro\Bundle\SyncBundle\Wamp\TopicPublisher;
+use Oro\Bundle\SyncBundle\Client\ConnectionChecker;
 use ZendDiagnostics\Check\CheckInterface;
 use ZendDiagnostics\Result\Failure;
 use ZendDiagnostics\Result\ResultInterface;
@@ -13,27 +13,15 @@ use ZendDiagnostics\Result\Success;
  */
 class WebSocketCheck implements CheckInterface
 {
-    /** @var array|TopicPublisher[] */
-    protected $topicPublishers;
+    /** @var ConnectionChecker */
+    protected $connectionChecker;
 
     /**
-     * @param array $topicPublishers
+     * @param ConnectionChecker $connectionChecker
      */
-    public function __construct(array $topicPublishers)
+    public function __construct(ConnectionChecker $connectionChecker)
     {
-        foreach ($topicPublishers as $topicPublisher) {
-            if (!$topicPublisher instanceof TopicPublisher) {
-                throw new \InvalidArgumentException(
-                    sprintf(
-                        'Topic publisher must be instance of "%s", "%s" given.',
-                        TopicPublisher::class,
-                        is_object($topicPublisher) ? get_class($topicPublisher) : gettype($topicPublisher)
-                    )
-                );
-            }
-        }
-
-        $this->topicPublishers = $topicPublishers;
+        $this->connectionChecker = $connectionChecker;
     }
 
     /**
@@ -41,10 +29,8 @@ class WebSocketCheck implements CheckInterface
      */
     public function check(): ResultInterface
     {
-        foreach ($this->topicPublishers as $topicPublisher) {
-            if (!$topicPublisher->check()) {
-                return new Failure('Not available');
-            }
+        if (!$this->connectionChecker->checkConnection()) {
+            return new Failure('Not available');
         }
 
         return new Success();
