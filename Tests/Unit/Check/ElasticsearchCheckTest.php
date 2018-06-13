@@ -1,0 +1,154 @@
+<?php
+
+namespace Oro\Bundle\HealthCheckBundle\Tests\Unit\Check;
+
+use Elasticsearch\Client;
+use Elasticsearch\Connections\Connection;
+use Elasticsearch\Connections\ConnectionInterface;
+use Elasticsearch\Transport;
+use Oro\Bundle\HealthCheckBundle\Check\ElasticsearchCheck;
+use Oro\Bundle\ElasticSearchBundle\Client\ClientFactory;
+use Oro\Bundle\ElasticSearchBundle\Engine\ElasticSearch as ElasticsearchEngine;
+use ZendDiagnostics\Result\Failure;
+use ZendDiagnostics\Result\ResultInterface;
+use ZendDiagnostics\Result\Skip;
+use ZendDiagnostics\Result\Success;
+
+class ElasticsearchCheckTest extends \PHPUnit_Framework_TestCase
+{
+    const ENGINE_PARAMETERS = ['client' => ['name' => 'test_client']];
+
+    /** @var ClientFactory|\PHPUnit_Framework_MockObject_MockObject */
+    protected $clientFactory;
+
+    protected function setUp()
+    {
+        $this->clientFactory = $this->createMock(ClientFactory::class);
+    }
+
+    /**
+     * @dataProvider checkDataProvider
+     *
+     * @param string $ping
+     * @param string $isAlive
+     * @param ResultInterface $expected
+     */
+    public function testCheckConfigured(string $ping, string $isAlive, ResultInterface $expected)
+    {
+        $connection = $this->createMock(Connection::class);
+        $connection->expects($this->any())
+            ->method('ping')
+            ->willReturn($ping);
+        $connection->expects($this->any())
+            ->method('isAlive')
+            ->willReturn($isAlive);
+
+        /** @var Transport|\PHPUnit_Framework_MockObject_MockObject $transport */
+        $transport = $this->createMock(Transport::class);
+        $transport->expects($this->once())
+            ->method('getConnection')
+            ->willReturn($connection);
+
+        $client = new Client(
+            $transport,
+            function ($name) {
+                return $name;
+            }
+        );
+
+        $this->clientFactory->expects($this->once())
+            ->method('create')
+            ->with(self::ENGINE_PARAMETERS['client'])
+            ->willReturn($client);
+
+        $this->assertEquals($expected, $this->getCheck(ElasticsearchEngine::ENGINE_NAME)->check());
+    }
+
+    /**
+     * @return array
+     */
+    public function checkDataProvider()
+    {
+        return [
+            [
+                'ping' => true,
+                'isAlive' => true,
+                'expected' => new Success()
+            ],
+            [
+                'ping' => false,
+                'isAlive' => true,
+                'expected' => new Failure()
+            ],
+            [
+                'ping' => true,
+                'isAlive' => false,
+                'expected' => new Failure()
+            ],
+            [
+                'ping' => false,
+                'isAlive' => false,
+                'expected' => new Failure()
+            ]
+        ];
+    }
+
+    public function testCheckConfiguredWithUnsupportedConnection()
+    {
+        /** @var ConnectionInterface|\PHPUnit_Framework_MockObject_MockObject $connection */
+        $connection = $this->createMock(ConnectionInterface::class);
+        $connection->expects($this->never())
+            ->method('isAlive');
+
+        /** @var Transport|\PHPUnit_Framework_MockObject_MockObject $transport */
+        $transport = $this->createMock(Transport::class);
+        $transport->expects($this->once())
+            ->method('getConnection')
+            ->willReturn($connection);
+
+        $client = new Client(
+            $transport,
+            function ($name) {
+                return $name;
+            }
+        );
+
+        $this->clientFactory->expects($this->once())
+            ->method('create')
+            ->with(self::ENGINE_PARAMETERS['client'])
+            ->willReturn($client);
+
+        $this->assertEquals(
+            new Skip('Elasticsearch connection does not support ping. Check Skipped.'),
+            $this->getCheck(ElasticsearchEngine::ENGINE_NAME)->check()
+        );
+    }
+
+    public function testCheckNotConfigured()
+    {
+        $this->clientFactory->expects($this->never())
+            ->method('create');
+
+        $this->assertEquals(
+            new Skip('Elasticsearch connection is not configured. Check Skipped.'),
+            $this->getCheck('orm')->check()
+        );
+    }
+
+    public function testGetLabel()
+    {
+        $this->assertEquals(
+            'Check if Elasticsearch is available in case it is configured',
+            $this->getCheck('')->getLabel()
+        );
+    }
+
+    /**
+     * @param string $engineName
+     * @return ElasticsearchCheck
+     */
+    protected function getCheck($engineName)
+    {
+        return new ElasticsearchCheck($this->clientFactory, $engineName, self::ENGINE_PARAMETERS);
+    }
+}

@@ -1,0 +1,43 @@
+{
+    "name": "oro/health-check-bundle",
+    "description": "Oro Health Check Bundle",
+    "homepage": "https://github.com/oroinc/OroHealthCheckBundle.git",
+    "keywords": ["Oro", "Health Check"],
+    "license": "OSL-3.0",
+    "authors": [
+        {
+            "name": "Oro, Inc",
+            "homepage": "http://www.oroinc.com"
+        }
+    ],
+    "require": {
+        "oro/platform-enterprise": "2.3.*",
+        "liip/monitor-bundle": "2.*",
+        "lexik/maintenance-bundle": "2.*"
+    },
+    "autoload": {
+        "psr-4": { "Oro\\Bundle\\HealthCheckBundle\\": "" },
+        "exclude-from-classmap": ["/Tests/"]
+    },
+    "repositories": {
+        "platform-enterprise": {
+            "type": "vcs",
+            "url": "https://github.com/oroinc/platform-enterprise.git"
+        },
+        "oro": {
+            "type": "composer",
+            "url": "https://packagist.orocrm.com"
+        },
+        "asset-packagist": {
+            "type": "composer",
+            "url": "https://asset-packagist.orocrm.com"
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "extra": {
+        "branch-alias": {
+            "dev-master": "2.3.x-dev"
+        }
+    }
+}

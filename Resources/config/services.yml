@@ -1,0 +1,92 @@
+services:
+    oro_health_check.listener.maintenance:
+        class: Oro\Bundle\HealthCheckBundle\EventListener\MaintenanceListener
+        decorates: 'lexik_maintenance.listener'
+        arguments:
+            - '@oro_health_check.listener.maintenance.inner'
+            -
+                - 'liip_monitor_health_interface'
+                - 'liip_monitor_list_checks'
+                - 'liip_monitor_list_all_checks'
+                - 'liip_monitor_list_groups'
+                - 'liip_monitor_run_all_checks'
+                - 'liip_monitor_run_single_check'
+
+    oro_health_check.check.file_storage:
+        class: Oro\Bundle\HealthCheckBundle\Check\FileStorageCheckCollection
+        arguments:
+            - '%kernel.root_dir%'
+            -
+                - '%kernel.cache_dir%'
+                - '%kernel.root_dir%/%oro_attachment.attachments_dir%'
+                - '%kernel.logs_dir%'
+                - '%kernel.root_dir%/%oro_importexport.importexport_dir%'
+                - '%kernel.root_dir%/../web/media'
+                - '%kernel.root_dir%/../web/uploads'
+        tags:
+            - { name: liip_monitor.check_collection, alias: file_storage }
+
+    oro_health_check.check.redis:
+        class: Oro\Bundle\HealthCheckBundle\Check\RedisCheckCollection
+        arguments:
+            - '@service_container'
+            -
+                'Redis cache': [snc_redis.cache, snc_redis.default] #workaround for old versions of redis-config package
+                'Redis doctrine cache': snc_redis.doctrine
+                'Redis session storage': snc_redis.session
+        tags:
+            - { name: liip_monitor.check_collection, alias: redis_servers }
+
+    oro_health_check.check.doctrine_dbal:
+        class: Oro\Bundle\HealthCheckBundle\Check\DoctrineDBALCheck
+        arguments:
+            - '@doctrine'
+        tags:
+            - { name: liip_monitor.check, alias: doctrine_dbal }
+
+    oro_health_check.check.mail_transport:
+        class: Oro\Bundle\HealthCheckBundle\Check\MailTransportCheck
+        arguments:
+            - '@oro_email.direct_mailer'
+        tags:
+            - { name: liip_monitor.check, alias: mail_transport }
+
+    oro_health_check.check.rabbitmq:
+        class: Oro\Bundle\HealthCheckBundle\Check\RabbitMQCheck
+        arguments:
+            - '%message_queue_transport_config%'
+        tags:
+            - { name: liip_monitor.check, alias: rabbitmq_server }
+
+    oro_health_check.check.elasticsearch:
+        class: Oro\Bundle\HealthCheckBundle\Check\ElasticsearchCheck
+        arguments:
+            - '@oro_elasticsearch.client.factory'
+            - '%oro_search.engine%'
+            - '%oro_search.engine_parameters%'
+        tags:
+            - { name: liip_monitor.check, alias: elasticsearch }
+
+    oro_health_check.ws_publisher.frontend:
+        class: Oro\Bundle\SyncBundle\Wamp\TopicPublisher
+        public: false
+        arguments:
+            - '%websocket_frontend_host%'
+            - '%websocket_frontend_port%'
+            - '%websocket_frontend_path%'
+        calls:
+            - ['setTicketProvider', ['@oro_sync.authentication.ticket_provider']]
+
+    oro_health_check.check.websocket:
+        class: Oro\Bundle\HealthCheckBundle\Check\WebSocketCheck
+        arguments:
+            - ['@oro_wamp.publisher', '@oro_health_check.ws_publisher.frontend']
+        tags:
+            - { name: liip_monitor.check, alias: websocket }
+
+    oro_health_check.check.maintenance_mode:
+        class: Oro\Bundle\HealthCheckBundle\Check\MaintenanceModeCheck
+        arguments:
+            - '@lexik_maintenance.driver.factory'
+        tags:
+            - { name: liip_monitor.check, alias: maintenance_mode }

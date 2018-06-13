@@ -1,0 +1,3 @@
+bundles:
+    - { name: Oro\Bundle\HealthCheckBundle\OroHealthCheckBundle, priority: 102 }
+    - { name: Liip\MonitorBundle\LiipMonitorBundle, priority: 103 }
