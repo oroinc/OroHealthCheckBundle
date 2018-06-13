@@ -1,0 +1,9 @@
+services:
+    oro_health_check.check.elasticsearch:
+        class: Oro\Bundle\HealthCheckBundle\Check\ElasticsearchCheck
+        arguments:
+            - '@oro_elasticsearch.client.factory'
+            - '%oro_search.engine%'
+            - '%oro_search.engine_parameters%'
+        tags:
+            - { name: liip_monitor.check, alias: elasticsearch }
