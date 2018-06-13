@@ -1,0 +1,3 @@
+_monitor:
+    resource: "@LiipMonitorBundle/Resources/config/routing.xml"
+    prefix: /healthcheck

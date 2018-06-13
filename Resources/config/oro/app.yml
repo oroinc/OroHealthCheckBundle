@@ -1,0 +1,15 @@
+liip_monitor:
+    enable_controller: true
+
+security:
+    firewalls:
+        healthcheck_http_status_checks:
+            pattern:   /healthcheck/http_status_check(s$|/.*)
+            provider:  chain_provider
+            anonymous: true
+    access_control:
+        - { path: /healthcheck/http_status_check(s$|/.*), roles: IS_AUTHENTICATED_ANONYMOUSLY }
+
+lexik_maintenance:
+    authorized:
+        route: 'liip_monitor_run_all_checks_http_status'
