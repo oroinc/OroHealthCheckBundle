@@ -27,8 +27,9 @@ class OroHealthCheckExtensionTest extends ExtensionTestCase
                 'oro_health_check.check.doctrine_dbal',
                 'oro_health_check.check.mail_transport',
                 'oro_health_check.check.rabbitmq',
-                'oro_health_check.ws_publisher.frontend',
-                //'oro_health_check.check.websocket',
+                'oro_health_check.websocket_client.frontend',
+                'oro_health_check.client.connection_checker.frontend',
+                'oro_health_check.check.websocket',
                 'oro_health_check.check.maintenance_mode',
             ]
         );
