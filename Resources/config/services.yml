@@ -58,20 +58,27 @@ services:
         tags:
             - { name: liip_monitor.check, alias: rabbitmq_server }
 
-    oro_health_check.ws_publisher.frontend:
-        class: Oro\Bundle\SyncBundle\Wamp\TopicPublisher
+    oro_health_check.websocket_client.frontend:
+        class: Oro\Bundle\SyncBundle\Client\WebsocketClient
         public: false
         arguments:
+            - '@oro_sync.client.factory.gos'
+            - '@oro_sync.authentication.ticket_provider'
             - '%websocket_frontend_host%'
             - '%websocket_frontend_port%'
             - '%websocket_frontend_path%'
-        calls:
-            - ['setTicketProvider', ['@oro_sync.authentication.ticket_provider']]
+
+    oro_health_check.client.connection_checker.frontend:
+        class: Oro\Bundle\SyncBundle\Client\ConnectionChecker
+        public: false
+        arguments:
+            - '@oro_health_check.websocket_client.frontend'
 
     oro_health_check.check.websocket:
         class: Oro\Bundle\HealthCheckBundle\Check\WebSocketCheck
         arguments:
             - '@oro_sync.client.connection_checker'
+            - '@oro_health_check.client.connection_checker.frontend'
         tags:
             - { name: liip_monitor.check, alias: websocket }
 

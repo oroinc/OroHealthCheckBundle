@@ -10,30 +10,54 @@ use ZendDiagnostics\Result\Success;
 class WebSocketCheckTest extends \PHPUnit_Framework_TestCase
 {
     /** @var ConnectionChecker|\PHPUnit_Framework_MockObject_MockObject */
-    protected $connectionChecker;
+    protected $checkerBackend;
+
+    /** @var ConnectionChecker|\PHPUnit_Framework_MockObject_MockObject */
+    protected $checkerFrontend;
 
     /** @var WebSocketCheck */
     protected $check;
 
     protected function setUp()
     {
-        $this->connectionChecker = $this->createMock(ConnectionChecker::class);
+        $this->checkerBackend = $this->createMock(ConnectionChecker::class);
+        $this->checkerFrontend = $this->createMock(ConnectionChecker::class);
 
-        $this->check = new WebSocketCheck($this->connectionChecker);
+        $this->check = new WebSocketCheck($this->checkerBackend, $this->checkerFrontend);
     }
 
     public function testCheck()
     {
-        $this->connectionChecker->expects($this->once())
+        $this->checkerBackend->expects($this->once())
+            ->method('checkConnection')
+            ->willReturn(true);
+
+        $this->checkerFrontend->expects($this->once())
             ->method('checkConnection')
             ->willReturn(true);
 
         $this->assertEquals(new Success(), $this->check->check());
     }
 
-    public function testCheckFailure()
+    public function testCheckBackendFailure()
     {
-        $this->connectionChecker->expects($this->once())
+        $this->checkerBackend->expects($this->once())
+            ->method('checkConnection')
+            ->willReturn(false);
+
+        $this->checkerFrontend->expects($this->never())
+            ->method($this->anything());
+
+        $this->assertEquals(new Failure('Not available'), $this->check->check());
+    }
+
+    public function testCheckFrontendFailure()
+    {
+        $this->checkerBackend->expects($this->once())
+            ->method('checkConnection')
+            ->willReturn(true);
+
+        $this->checkerFrontend->expects($this->once())
             ->method('checkConnection')
             ->willReturn(false);
 

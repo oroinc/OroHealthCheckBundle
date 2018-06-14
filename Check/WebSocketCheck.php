@@ -14,14 +14,19 @@ use ZendDiagnostics\Result\Success;
 class WebSocketCheck implements CheckInterface
 {
     /** @var ConnectionChecker */
-    protected $connectionChecker;
+    protected $checkerBackend;
+
+    /** @var ConnectionChecker */
+    protected $checkerFrontend;
 
     /**
-     * @param ConnectionChecker $connectionChecker
+     * @param ConnectionChecker $checkerBackend
+     * @param ConnectionChecker $checkerFrontend
      */
-    public function __construct(ConnectionChecker $connectionChecker)
+    public function __construct(ConnectionChecker $checkerBackend, ConnectionChecker $checkerFrontend)
     {
-        $this->connectionChecker = $connectionChecker;
+        $this->checkerBackend = $checkerBackend;
+        $this->checkerFrontend = $checkerFrontend;
     }
 
     /**
@@ -29,7 +34,7 @@ class WebSocketCheck implements CheckInterface
      */
     public function check(): ResultInterface
     {
-        if (!$this->connectionChecker->checkConnection()) {
+        if (!$this->checkerBackend->checkConnection() || !$this->checkerFrontend->checkConnection()) {
             return new Failure('Not available');
         }
 
