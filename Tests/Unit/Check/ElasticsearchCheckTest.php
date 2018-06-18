@@ -49,12 +49,9 @@ class ElasticsearchCheckTest extends \PHPUnit_Framework_TestCase
             ->method('getConnection')
             ->willReturn($connection);
 
-        $client = new Client(
-            $transport,
-            function ($name) {
-                return $name;
-            }
-        );
+        /** @var Client|\PHPUnit_Framework_MockObject_MockObject $client */
+        $client = $this->createMock(Client::class);
+        $client->transport = $transport;
 
         $this->clientFactory->expects($this->once())
             ->method('create')
@@ -106,12 +103,9 @@ class ElasticsearchCheckTest extends \PHPUnit_Framework_TestCase
             ->method('getConnection')
             ->willReturn($connection);
 
-        $client = new Client(
-            $transport,
-            function ($name) {
-                return $name;
-            }
-        );
+        /** @var Client|\PHPUnit_Framework_MockObject_MockObject $client */
+        $client = $this->createMock(Client::class);
+        $client->transport = $transport;
 
         $this->clientFactory->expects($this->once())
             ->method('create')
