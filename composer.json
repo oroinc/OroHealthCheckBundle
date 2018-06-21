@@ -11,7 +11,7 @@
         }
     ],
     "require": {
-        "oro/platform-enterprise": "2.3.*",
+        "oro/platform-enterprise": "~2.3.13",
         "liip/monitor-bundle": "2.*",
         "lexik/maintenance-bundle": "2.*"
     },
