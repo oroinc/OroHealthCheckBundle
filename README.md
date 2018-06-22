@@ -9,6 +9,7 @@ using the same configuration and environment that the application uses.
 
  - [Purpose](#purpose)
  - [Basic usage](#basic-usage)
+ - [HealthCheck under Maintenance mode](#рealthсheck-under-maintenance-mode)
  - [Built in checks](#built-in-checks)
  - [Build your own check](#build-your-own-check)
  - [Links](#links)
@@ -89,6 +90,45 @@ urls. This parameter has `/admin` value by default. For example:
 - `/admin/healthcheck`
 - `/admin/healthcheck/http_status_check/<some_check_id>`
 - `/admin/healthcheck/http_status_checks`
+
+## HealthCheck under Maintenance mode
+
+Keep in mind that you will NOT be able to use any http request to your web server if it has the configured _maintenance_ page.
+In this case, you can use only **CLI** commands illustrated in the [Basic usage](#basic-usage) section.
+
+When using healthcheck, you typically receive either the 200 or 502 http status codes. However, if you have any of the
+configurations listed below, you receive the 503 http status code.
+
+For the _Apache_ web server (in the `.htaccess` file)
+```
+<IfModule mod_rewrite.c>
+    RewriteEngine On
+
+    # Maintenance mode rewrites
+    RewriteCond %{DOCUMENT_ROOT}/maintenance.html -f
+    RewriteCond %{DOCUMENT_ROOT}/../var/cache/maintenance_lock -f
+    RewriteCond %{SCRIPT_FILENAME} !maintenance.html
+    RewriteRule ^.*$ /maintenance.html [R=503,L]
+    ErrorDocument 503 /maintenance.html
+</IfModule>
+```
+
+For the _Nginx_ web server (in the host configuration)
+```
+server {
+    location / {
+        if (-f /var/www/var/cache/maintenance_lock) {
+            return 503;
+        }
+    }
+
+    # Error pages
+    error_page 503 /maintenance.html;
+    location = /maintenance.html {
+        root /var/www/;
+    }
+}
+```
 
 ## Built-in checks
 
