@@ -8,9 +8,9 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
 use Symfony\Component\HttpKernel\Event\GetResponseEvent;
 
-class MaintenanceListenerTest extends \PHPUnit_Framework_TestCase
+class MaintenanceListenerTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var LexikMaintenanceListener|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var LexikMaintenanceListener|\PHPUnit\Framework\MockObject\MockObject */
     protected $lexikListener;
 
     /** @var MaintenanceListener */
@@ -25,7 +25,7 @@ class MaintenanceListenerTest extends \PHPUnit_Framework_TestCase
 
     public function testOnKernelRequestAllowedRoute()
     {
-        /** @var GetResponseEvent|\PHPUnit_Framework_MockObject_MockObject $event */
+        /** @var GetResponseEvent|\PHPUnit\Framework\MockObject\MockObject $event */
         $event = $this->createMock(GetResponseEvent::class);
         $event->expects($this->once())
             ->method('getRequest')
@@ -39,7 +39,7 @@ class MaintenanceListenerTest extends \PHPUnit_Framework_TestCase
 
     public function testOnKernelRequestNotAllowedRoute()
     {
-        /** @var GetResponseEvent|\PHPUnit_Framework_MockObject_MockObject $event */
+        /** @var GetResponseEvent|\PHPUnit\Framework\MockObject\MockObject $event */
         $event = $this->createMock(GetResponseEvent::class);
         $event->expects($this->once())
             ->method('getRequest')
@@ -54,7 +54,7 @@ class MaintenanceListenerTest extends \PHPUnit_Framework_TestCase
 
     public function testOnKernelRequestEmptyRequest()
     {
-        /** @var GetResponseEvent|\PHPUnit_Framework_MockObject_MockObject $event */
+        /** @var GetResponseEvent|\PHPUnit\Framework\MockObject\MockObject $event */
         $event = $this->createMock(GetResponseEvent::class);
         $event->expects($this->once())
             ->method('getRequest')

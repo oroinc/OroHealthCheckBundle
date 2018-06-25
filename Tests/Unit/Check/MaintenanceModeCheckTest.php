@@ -10,9 +10,9 @@ use ZendDiagnostics\Result\Failure;
 use ZendDiagnostics\Result\ResultInterface;
 use ZendDiagnostics\Result\Success;
 
-class MaintenanceModeCheckTest extends \PHPUnit_Framework_TestCase
+class MaintenanceModeCheckTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var DriverFactory|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var DriverFactory|\PHPUnit\Framework\MockObject\MockObject */
     protected $driverFactory;
 
     /** @var MaintenanceModeCheck */
@@ -33,7 +33,7 @@ class MaintenanceModeCheckTest extends \PHPUnit_Framework_TestCase
      */
     public function testCheckWithNoTtlDriver(bool $decide, ResultInterface $expected)
     {
-        /** @var AbstractDriver|\PHPUnit_Framework_MockObject_MockObject $driver */
+        /** @var AbstractDriver|\PHPUnit\Framework\MockObject\MockObject $driver */
         $driver = $this->createMock(AbstractDriver::class);
         $driver->expects($this->once())
             ->method('decide')
@@ -72,7 +72,7 @@ class MaintenanceModeCheckTest extends \PHPUnit_Framework_TestCase
      */
     public function testCheckWithTtlDriver(bool $decide, bool $isExpired, ResultInterface $expected)
     {
-        /** @var FileDriver|\PHPUnit_Framework_MockObject_MockObject $driver */
+        /** @var FileDriver|\PHPUnit\Framework\MockObject\MockObject $driver */
         $driver = $this->createMock(FileDriver::class);
         $driver->expects($this->once())
             ->method('decide')

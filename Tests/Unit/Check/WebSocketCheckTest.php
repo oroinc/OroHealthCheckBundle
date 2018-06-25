@@ -7,12 +7,12 @@ use Oro\Bundle\SyncBundle\Client\ConnectionChecker;
 use ZendDiagnostics\Result\Failure;
 use ZendDiagnostics\Result\Success;
 
-class WebSocketCheckTest extends \PHPUnit_Framework_TestCase
+class WebSocketCheckTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var ConnectionChecker|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var ConnectionChecker|\PHPUnit\Framework\MockObject\MockObject */
     protected $checkerBackend;
 
-    /** @var ConnectionChecker|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var ConnectionChecker|\PHPUnit\Framework\MockObject\MockObject */
     protected $checkerFrontend;
 
     /** @var WebSocketCheck */

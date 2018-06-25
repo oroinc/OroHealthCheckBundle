@@ -14,11 +14,11 @@ use ZendDiagnostics\Result\ResultInterface;
 use ZendDiagnostics\Result\Skip;
 use ZendDiagnostics\Result\Success;
 
-class ElasticsearchCheckTest extends \PHPUnit_Framework_TestCase
+class ElasticsearchCheckTest extends \PHPUnit\Framework\TestCase
 {
     const ENGINE_PARAMETERS = ['client' => ['name' => 'test_client']];
 
-    /** @var ClientFactory|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var ClientFactory|\PHPUnit\Framework\MockObject\MockObject */
     protected $clientFactory;
 
     protected function setUp()
@@ -35,7 +35,7 @@ class ElasticsearchCheckTest extends \PHPUnit_Framework_TestCase
      */
     public function testCheckConfigured(string $ping, string $isAlive, ResultInterface $expected)
     {
-        /** @var Connection|\PHPUnit_Framework_MockObject_MockObject $connection */
+        /** @var Connection|\PHPUnit\Framework\MockObject\MockObject $connection */
         $connection = $this->createMock(Connection::class);
         $connection->expects($this->any())
             ->method('ping')
@@ -80,7 +80,7 @@ class ElasticsearchCheckTest extends \PHPUnit_Framework_TestCase
 
     public function testCheckConfiguredWithUnsupportedConnection()
     {
-        /** @var ConnectionInterface|\PHPUnit_Framework_MockObject_MockObject $connection */
+        /** @var ConnectionInterface|\PHPUnit\Framework\MockObject\MockObject $connection */
         $connection = $this->createMock(ConnectionInterface::class);
         $connection->expects($this->never())
             ->method('isAlive');
@@ -117,7 +117,7 @@ class ElasticsearchCheckTest extends \PHPUnit_Framework_TestCase
      */
     protected function setUpClient(ConnectionInterface $connection)
     {
-        /** @var Transport|\PHPUnit_Framework_MockObject_MockObject $transport */
+        /** @var Transport|\PHPUnit\Framework\MockObject\MockObject $transport */
         $transport = $this->createMock(Transport::class);
         $transport->expects($this->once())
             ->method('getConnection')

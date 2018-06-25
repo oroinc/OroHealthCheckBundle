@@ -6,9 +6,9 @@ use Oro\Bundle\HealthCheckBundle\Check\RedisCheck;
 use Oro\Bundle\HealthCheckBundle\Tests\Unit\Stub\PredisClient;
 use ZendDiagnostics\Result\Success;
 
-class RedisCheckTest extends \PHPUnit_Framework_TestCase
+class RedisCheckTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var PredisClient|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var PredisClient|\PHPUnit\Framework\MockObject\MockObject */
     protected $client;
 
     /** @var RedisCheck */

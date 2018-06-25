@@ -5,7 +5,7 @@ namespace Oro\Bundle\HealthCheckBundle\Tests\Unit\Check;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Oro\Bundle\HealthCheckBundle\Check\DoctrineDBALCheck;
 
-class DoctrineDBALCheckTest extends \PHPUnit_Framework_TestCase
+class DoctrineDBALCheckTest extends \PHPUnit\Framework\TestCase
 {
     /** @var DoctrineDbalCheck */
     protected $check;

@@ -5,7 +5,7 @@ namespace Oro\Bundle\HealthCheckBundle\Tests\Unit\Check;
 use Oro\Bundle\HealthCheckBundle\Check\RabbitMQCheck;
 use ZendDiagnostics\Result\Skip;
 
-class RabbitMQCheckTest extends \PHPUnit_Framework_TestCase
+class RabbitMQCheckTest extends \PHPUnit\Framework\TestCase
 {
     public function testCheckNotConfiguredWithArray()
     {

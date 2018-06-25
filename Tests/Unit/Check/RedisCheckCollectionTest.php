@@ -7,9 +7,9 @@ use Oro\Bundle\HealthCheckBundle\Check\RedisCheckCollection;
 use Predis\Client;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-class RedisCheckCollectionTest extends \PHPUnit_Framework_TestCase
+class RedisCheckCollectionTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var ContainerInterface|\PHPUnit_Framework_MockObject_MockObject */
+    /** @var ContainerInterface|\PHPUnit\Framework\MockObject\MockObject */
     protected $container;
 
     /** @var RedisCheckCollection */
