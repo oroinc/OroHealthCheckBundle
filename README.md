@@ -35,9 +35,9 @@ It checks the following:
 
 You can use the health check via:
 - **CLI**. There are 2 available commands
-    - the `app/console monitor:list --env=prod` command provides a list of configured checks
+    - the `bin/console monitor:list --env=prod` command provides a list of configured checks
     ```bash
-    $ app/console monitor:list --env=prod
+    $ bin/console monitor:list --env=prod
     
     doctrine_dbal Check if Doctrine DBAL is available
     mail_transport Check if Mail Transport is available
@@ -45,20 +45,20 @@ You can use the health check via:
     elasticsearch Check if Elasticsearch is available in case it is configured
     websocket Check if WebSocket server is available
     maintenance_mode Check if Maintenance Mode is running and not expired
-    fs_cache_prod Check if "/var/www/app/cache/prod" is writable
-    fs_attachment Check if "/var/www/app/attachment" is writable
-    fs_logs Check if "/var/www/app/logs" is writable
-    fs_import_export Check if "/var/www/app/import_export" is writable
-    fs_web_media Check if "/var/www/app/../web/media" is writable
-    fs_web_uploads Check if "/var/www/app/../web/uploads" is writable
+    fs_cache_prod Check if "/var/www/var/cache/prod" is writable
+    fs_attachment Check if "/var/www/var/attachment" is writable
+    fs_logs Check if "/var/www/var/logs" is writable
+    fs_import_export Check if "/var/www/var/import_export" is writable
+    fs_web_media Check if "/var/www/public/media" is writable
+    fs_web_uploads Check if "/var/www/public/uploads" is writable
     redis_cache Check if Redis cache is available
     redis_doctrine_cache Check if Redis doctrine cache is available
     redis_session_storage Check if Redis session storage is available
     ```
 
-    - the `app/console monitor:health --env=prod` command performs health checks
+    - the `bin/console monitor:health --env=prod` command performs health checks
     ```bash
-    $ app/console monitor:health --env=prod
+    $ bin/console monitor:health --env=prod
 
     OK Check if Doctrine DBAL is available
     OK Check if Mail Transport is available
@@ -66,23 +66,23 @@ You can use the health check via:
     OK Check if Elasticsearch is available in case it is configured
     FAIL Check if WebSocket server is available: Not available
     FAIL Check if Maintenance Mode is running and not expired: Expired
-    OK Check if "/var/www/app/cache/prod" is writable: The path is a writable directory.
-    OK Check if "/var/www/app/attachment" is writable: The path is a writable directory.
-    OK Check if "/var/www/app/logs" is writable: The path is a writable directory.
-    OK Check if "/var/www/app/import_export" is writable: The path is a writable directory.
-    OK Check if "/var/www/app/../web/media" is writable: The path is a writable directory.
-    OK Check if "/var/www/app/../web/uploads" is writable: The path is a writable directory.
+    OK Check if "/var/www/var/cache/prod" is writable: The path is a writable directory.
+    OK Check if "/var/www/var/attachment" is writable: The path is a writable directory.
+    OK Check if "/var/www/var/logs" is writable: The path is a writable directory.
+    OK Check if "/var/www/var/import_export" is writable: The path is a writable directory.
+    OK Check if "/var/www/public/media" is writable: The path is a writable directory.
+    OK Check if "/var/www/public/uploads" is writable: The path is a writable directory.
     OK Check if Redis cache is available
     OK Check if Redis doctrine cache is available
     OK Check if Redis session storage is available
     ```
-If all health checks were successful, the `app/console monitor:health --env=prod` command returns the 0 code. If at 
+If all health checks were successful, the `bin/console monitor:health --env=prod` command returns the 0 code. If at 
 least one check has failed, the 1 code is returned.
 - **Web Interface**. All configured checks and REST API documentation are available on the page with `/healthcheck` path
 - **HTTP Status endpoint**. Pages that send only HTTP status in response
     - `/healthcheck/http_status_checks` can be used to get status after all available checks are executed
     - `/healthcheck/http_status_check/<some_check_id>` can be used to get status of a specific check
-    (use `app/console monitor:list --env=prod` to get check identifiers)
+    (use `bin/console monitor:list --env=prod` to get check identifiers)
 - **REST API**. Docs are available on the page with `/healthcheck` path
 
 **Note:** For the OroCommerce application, make sure that the `%web_backend_prefix%` parameter is used before health check
