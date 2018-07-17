@@ -80,7 +80,9 @@ services:
     oro_health_check.check.websocket:
         class: Oro\Bundle\HealthCheckBundle\Check\WebSocketCheck
         arguments:
-            - ['@oro_wamp.publisher', '@oro_health_check.ws_publisher.frontend']
+            -
+                - '@oro_wamp.publisher'
+                #- '@oro_health_check.ws_publisher.frontend' Will be restored in scope of BAP-17155
         tags:
             - { name: liip_monitor.check, alias: websocket }
 
