@@ -64,9 +64,12 @@ services:
         arguments:
             - '@oro_sync.client.factory.gos'
             - '@oro_sync.authentication.ticket_provider'
-            - '%websocket_frontend_host%'
-            - '%websocket_frontend_port%'
-            - '%websocket_frontend_path%'
+            #- '%websocket_frontend_host%' Will be restored in scope of BAP-17155
+            - '%websocket_backend_host%'
+            #- '%websocket_frontend_port%' Will be restored in scope of BAP-17155
+            - '%websocket_backend_port%'
+            #- '%websocket_frontend_path%' Will be restored in scope of BAP-17155
+            - '%websocket_backend_path%'
 
     oro_health_check.client.connection_checker.frontend:
         class: Oro\Bundle\SyncBundle\Client\ConnectionChecker
