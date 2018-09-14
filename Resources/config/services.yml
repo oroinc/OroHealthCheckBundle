@@ -76,13 +76,15 @@ services:
             - '%websocket_frontend_path%'
         calls:
             - ['setTicketProvider', ['@oro_sync.authentication.ticket_provider']]
+            - ['setClientFactory', ['@oro_sync.wamp.websocket_client_factory']]
+            - ['setClientAttributes', ['@oro_sync.wamp.websocket_frontend_client_attributes']]
 
     oro_health_check.check.websocket:
         class: Oro\Bundle\HealthCheckBundle\Check\WebSocketCheck
         arguments:
             -
                 - '@oro_wamp.publisher'
-                #- '@oro_health_check.ws_publisher.frontend' Will be restored in scope of BAP-17155
+                - '@oro_health_check.ws_publisher.frontend'
         tags:
             - { name: liip_monitor.check, alias: websocket }
 
@@ -92,3 +94,13 @@ services:
             - '@lexik_maintenance.driver.factory'
         tags:
             - { name: liip_monitor.check, alias: maintenance_mode }
+
+    oro_sync.wamp.websocket_frontend_client_attributes:
+        class: Oro\Bundle\SyncBundle\Wamp\WebSocketClientAttributes
+        public: false
+        arguments:
+            - '%websocket_frontend_host%'
+            - '%websocket_frontend_port%'
+            - '%websocket_frontend_path%'
+            - "%websocket_backend_transport%"
+            - "%websocket_backend_ssl_context_options%"
