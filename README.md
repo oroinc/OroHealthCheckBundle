@@ -85,7 +85,7 @@ least one check has failed, the 1 code is returned.
     (use `bin/console monitor:list --env=prod` to get check identifiers)
 - **REST API**. Docs are available on the page with `/healthcheck` path
 
-**Note:** For the OroCommerce application, make sure that the `%web_backend_prefix%` parameter is used before health check
+**Note:** For an OroCommerce application, make sure that the `%web_backend_prefix%` parameter is used before health check
 urls. This parameter has `/admin` value by default. For example:
 - `/admin/healthcheck`
 - `/admin/healthcheck/http_status_check/<some_check_id>`
