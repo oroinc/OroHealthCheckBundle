@@ -1,7 +1,7 @@
 OroHealthCheckBundle
 ====================
 
-OroHealthCheckBundle implements a set of health checks for Oro Platform.
+OroHealthCheckBundle implements a set of health checks for applications built on OroPlatform.
 Based on the [Liip Monitor Bundle](https://github.com/liip/LiipMonitorBundle), it provides a way to perform the checks 
 using the same configuration and environment that the application uses.
 
