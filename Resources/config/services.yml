@@ -77,17 +77,20 @@ services:
         arguments:
             - '@oro_health_check.websocket_client.frontend'
 
-    oro_health_check.check.websocket_frontend:
-        class: Oro\Bundle\HealthCheckBundle\Check\WebSocketBackendCheck
+    oro_health_check.check.websocket_backend:
+        class: Oro\Bundle\HealthCheckBundle\Check\WebSocketCheck
         arguments:
             - '@oro_sync.client.connection_checker'
+            - 'backend'
         tags:
             - { name: liip_monitor.check, alias: websocket_backend }
 
-    oro_health_check.check.websocket_backend:
-        class: Oro\Bundle\HealthCheckBundle\Check\WebSocketFrontendCheck
+    oro_health_check.check.websocket_frontend:
+        class: Oro\Bundle\HealthCheckBundle\Check\WebSocketCheck
         arguments:
             - '@oro_health_check.client.connection_checker.frontend'
+            - 'frontend'
+            - false
         tags:
             - { name: liip_monitor.check, alias: websocket_frontend }
 
