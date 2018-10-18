@@ -5,8 +5,8 @@ namespace Oro\Bundle\HealthCheckBundle\Tests\Unit\Check;
 use Oro\Bundle\HealthCheckBundle\Check\WebSocketCheck;
 use Oro\Bundle\SyncBundle\Wamp\TopicPublisher;
 use ZendDiagnostics\Result\Failure;
+use ZendDiagnostics\Result\Skip;
 use ZendDiagnostics\Result\Success;
-use ZendDiagnostics\Result\Warning;
 
 class WebSocketCheckTest extends \PHPUnit_Framework_TestCase
 {
@@ -73,7 +73,7 @@ class WebSocketCheckTest extends \PHPUnit_Framework_TestCase
             ->willReturn(false);
 
         $this->assertEquals(
-            new Warning('WebSocket backend connection works, but frontend connection cannot be established'),
+            new Skip('WebSocket backend connection works, but frontend connection cannot be established'),
             $this->check->check()
         );
     }

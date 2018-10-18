@@ -5,9 +5,9 @@ namespace Oro\Bundle\HealthCheckBundle\Check;
 use Oro\Bundle\SyncBundle\Wamp\TopicPublisher;
 use ZendDiagnostics\Check\CheckInterface;
 use ZendDiagnostics\Result\ResultInterface;
+use ZendDiagnostics\Result\Skip;
 use ZendDiagnostics\Result\Success;
 use ZendDiagnostics\Result\Failure;
-use ZendDiagnostics\Result\Warning;
 
 /**
  * Class for check WebSocket
@@ -58,7 +58,7 @@ class WebSocketCheck implements CheckInterface
                 return new Success();
             }
 
-            return new Warning('WebSocket backend connection works, but frontend connection cannot be established');
+            return new Skip('WebSocket backend connection works, but frontend connection cannot be established');
         }
 
         return new Failure('Not available');
