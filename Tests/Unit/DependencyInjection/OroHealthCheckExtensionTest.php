@@ -29,7 +29,8 @@ class OroHealthCheckExtensionTest extends ExtensionTestCase
                 'oro_health_check.check.rabbitmq',
                 'oro_health_check.websocket_client.frontend',
                 'oro_health_check.client.connection_checker.frontend',
-                'oro_health_check.check.websocket',
+                'oro_health_check.check.websocket_backend',
+                'oro_health_check.check.websocket_frontend',
                 'oro_health_check.check.maintenance_mode',
             ]
         );

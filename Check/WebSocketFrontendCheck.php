@@ -4,28 +4,23 @@ namespace Oro\Bundle\HealthCheckBundle\Check;
 
 use Oro\Bundle\SyncBundle\Client\ConnectionChecker;
 use ZendDiagnostics\Check\CheckInterface;
-use ZendDiagnostics\Result\Failure;
 use ZendDiagnostics\Result\ResultInterface;
 use ZendDiagnostics\Result\Success;
+use ZendDiagnostics\Result\Warning;
 
 /**
- * Class for check WebSocket
+ * Checks WebSocket frontend connection
  */
-class WebSocketCheck implements CheckInterface
+class WebSocketFrontendCheck implements CheckInterface
 {
-    /** @var ConnectionChecker */
-    protected $checkerBackend;
-
     /** @var ConnectionChecker */
     protected $checkerFrontend;
 
     /**
-     * @param ConnectionChecker $checkerBackend
      * @param ConnectionChecker $checkerFrontend
      */
-    public function __construct(ConnectionChecker $checkerBackend, ConnectionChecker $checkerFrontend)
+    public function __construct(ConnectionChecker $checkerFrontend)
     {
-        $this->checkerBackend = $checkerBackend;
         $this->checkerFrontend = $checkerFrontend;
     }
 
@@ -34,8 +29,8 @@ class WebSocketCheck implements CheckInterface
      */
     public function check(): ResultInterface
     {
-        if (!$this->checkerBackend->checkConnection() || !$this->checkerFrontend->checkConnection()) {
-            return new Failure('Not available');
+        if (!$this->checkerFrontend->checkConnection()) {
+            return new Warning('Not available');
         }
 
         return new Success();
@@ -46,6 +41,6 @@ class WebSocketCheck implements CheckInterface
      */
     public function getLabel(): string
     {
-        return 'Check if WebSocket server is available';
+        return 'Check if WebSocket frontend connection can be established';
     }
 }

@@ -1,4 +1,16 @@
+parameters:
+    oro_health_check_websocket_frontend_secure_ports: [443]
+    oro_health_check_websocket_frontend_secure_protocol: tls
+    oro_health_check_websocket_frontend_ssl_context_options: []
+
 services:
+    oro_health_check.check.websocket.frontend_client_attributes_factory:
+        class: Oro\Bundle\HealthCheckBundle\Check\WebSocket\FrontendClientAttributesFactory
+        arguments:
+            - '%oro_health_check_websocket_frontend_secure_protocol%'
+            - '%oro_health_check_websocket_frontend_secure_ports%'
+            - '%oro_health_check_websocket_frontend_ssl_context_options%'
+
     oro_health_check.listener.maintenance:
         class: Oro\Bundle\HealthCheckBundle\EventListener\MaintenanceListener
         decorates: 'lexik_maintenance.listener'
@@ -72,13 +84,19 @@ services:
         arguments:
             - '@oro_health_check.websocket_client.frontend'
 
-    oro_health_check.check.websocket:
-        class: Oro\Bundle\HealthCheckBundle\Check\WebSocketCheck
+    oro_health_check.check.websocket_frontend:
+        class: Oro\Bundle\HealthCheckBundle\Check\WebSocketBackendCheck
         arguments:
             - '@oro_sync.client.connection_checker'
+        tags:
+            - { name: liip_monitor.check, alias: websocket_backend }
+
+    oro_health_check.check.websocket_backend:
+        class: Oro\Bundle\HealthCheckBundle\Check\WebSocketFrontendCheck
+        arguments:
             - '@oro_health_check.client.connection_checker.frontend'
         tags:
-            - { name: liip_monitor.check, alias: websocket }
+            - { name: liip_monitor.check, alias: websocket_frontend }
 
     oro_health_check.check.maintenance_mode:
         class: Oro\Bundle\HealthCheckBundle\Check\MaintenanceModeCheck
@@ -88,11 +106,10 @@ services:
             - { name: liip_monitor.check, alias: maintenance_mode }
 
     oro_health_check.client_frontend_attributes:
+        factory: 'oro_health_check.check.websocket.frontend_client_attributes_factory:createClientAttributes'
         class: Oro\Bundle\SyncBundle\Client\Wamp\Factory\ClientAttributes
         public: false
         arguments:
             - '%websocket_frontend_host%'
             - '%websocket_frontend_port%'
             - '%websocket_frontend_path%'
-            - '%websocket_backend_transport%'
-            - '%websocket_backend_ssl_context_options%'
