@@ -1,3 +1,8 @@
+parameters:
+    oro_health_check_websocket_frontend_secure_ports: [443]
+    oro_health_check_websocket_frontend_secure_protocol: tls
+    oro_health_check_websocket_frontend_ssl_context_options: []
+
 services:
     oro_health_check.listener.maintenance:
         class: Oro\Bundle\HealthCheckBundle\EventListener\MaintenanceListener
@@ -83,8 +88,8 @@ services:
         class: Oro\Bundle\HealthCheckBundle\Check\WebSocketCheck
         arguments:
             -
-                - '@oro_wamp.publisher'
-                - '@oro_health_check.ws_publisher.frontend'
+                - '@oro_wamp.publisher' # checks backend connection, must be always on the first position
+                - '@oro_health_check.ws_publisher.frontend' # checks frontend connection, must be always on the second position
         tags:
             - { name: liip_monitor.check, alias: websocket }
 
@@ -102,5 +107,5 @@ services:
             - '%websocket_frontend_host%'
             - '%websocket_frontend_port%'
             - '%websocket_frontend_path%'
-            - "%websocket_backend_transport%"
-            - "%websocket_backend_ssl_context_options%"
+            - "@=parameter('websocket_frontend_port') in parameter('oro_health_check_websocket_frontend_secure_ports') ? parameter('oro_health_check_websocket_frontend_secure_protocol') : 'tcp'"
+            - '%oro_health_check_websocket_frontend_ssl_context_options%'

@@ -7,6 +7,7 @@ use ZendDiagnostics\Check\CheckInterface;
 use ZendDiagnostics\Result\ResultInterface;
 use ZendDiagnostics\Result\Success;
 use ZendDiagnostics\Result\Failure;
+use ZendDiagnostics\Result\Warning;
 
 /**
  * Class for check WebSocket
@@ -41,13 +42,26 @@ class WebSocketCheck implements CheckInterface
      */
     public function check(): ResultInterface
     {
+        $checkResult = [];
         foreach ($this->topicPublishers as $topicPublisher) {
             if (!$topicPublisher->check()) {
-                return new Failure('Not available');
+                $checkResult[] = false;
+                break;
             }
+            $checkResult[] = true;
         }
 
-        return new Success();
+        // Assumes that first topicPublisher checks backend connection.
+        if ($checkResult[0]) {
+            // .. and the second topicPublisher checks frontend connection.
+            if (isset($checkResult[1]) && $checkResult[1]) {
+                return new Success();
+            }
+
+            return new Warning('WebSocket backend connection works, but frontend connection cannot be established');
+        }
+
+        return new Failure('Not available');
     }
 
     /**
