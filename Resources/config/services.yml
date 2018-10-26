@@ -4,13 +4,6 @@ parameters:
     oro_health_check_websocket_frontend_ssl_context_options: []
 
 services:
-    oro_health_check.check.websocket.frontend_client_attributes_factory:
-        class: Oro\Bundle\HealthCheckBundle\Check\WebSocket\FrontendClientAttributesFactory
-        arguments:
-            - '%oro_health_check_websocket_frontend_secure_protocol%'
-            - '%oro_health_check_websocket_frontend_secure_ports%'
-            - '%oro_health_check_websocket_frontend_ssl_context_options%'
-
     oro_health_check.listener.maintenance:
         class: Oro\Bundle\HealthCheckBundle\EventListener\MaintenanceListener
         decorates: 'lexik_maintenance.listener'
@@ -106,10 +99,11 @@ services:
             - { name: liip_monitor.check, alias: maintenance_mode }
 
     oro_health_check.client_frontend_attributes:
-        factory: 'oro_health_check.check.websocket.frontend_client_attributes_factory:createClientAttributes'
         class: Oro\Bundle\SyncBundle\Client\Wamp\Factory\ClientAttributes
         public: false
         arguments:
             - '%websocket_frontend_host%'
             - '%websocket_frontend_port%'
             - '%websocket_frontend_path%'
+            - "@=parameter('websocket_frontend_port') in parameter('oro_health_check_websocket_frontend_secure_ports') ? parameter('oro_health_check_websocket_frontend_secure_protocol') : 'tcp'"
+            - '%oro_health_check_websocket_frontend_ssl_context_options%'
