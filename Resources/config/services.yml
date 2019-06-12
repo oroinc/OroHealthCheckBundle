@@ -26,7 +26,7 @@ services:
                 - '%kernel.logs_dir%'
                 - '%kernel.project_dir%/public/media'
                 - '%kernel.project_dir%/public/uploads'
-                - '%kernel.project_dir%/var/%oro_attachment.attachments_dir%'
+                - '%kernel.project_dir%/var/%oro_attachment.filesystem_dir.attachment%'
                 - '%kernel.project_dir%/var/%oro_importexport.importexport_dir%'
         tags:
             - { name: liip_monitor.check_collection, alias: file_storage }
