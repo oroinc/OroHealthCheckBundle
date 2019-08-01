@@ -2,7 +2,9 @@
 
 namespace Oro\Bundle\HealthCheckBundle\Tests\Functional\Check;
 
+use Oro\Bundle\HealthCheckBundle\Check\FileStorageCheckCollection;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
+use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\Response;
 use ZendDiagnostics\Result\Success;
 
@@ -32,10 +34,19 @@ class FileStorageCheckTest extends WebTestCase
     public function testServiceCheck()
     {
         $fileStorageChecks = static::getContainer()->get('oro_health_check.check.file_storage')->getChecks();
-        foreach ($fileStorageChecks as $fileStorageCheck) {
+        $expectedKeys = [
+            'fs_cache_prod',
+            'fs_attachment',
+            'fs_logs',
+            'fs_import_export',
+            'fs_web_media',
+            'fs_web_uploads',
+        ];
+        foreach ($fileStorageChecks as $key => $fileStorageCheck) {
             $result = $fileStorageCheck->check();
 
             $this->assertInstanceOf(Success::class, $result);
+            $this->assertEquals(array_shift($expectedKeys), $key);
         }
     }
 }

@@ -2,8 +2,8 @@
 
 namespace Oro\Bundle\HealthCheckBundle\Check;
 
-use ZendDiagnostics\Check\DirWritable;
 use ZendDiagnostics\Check\CheckCollectionInterface;
+use ZendDiagnostics\Check\DirWritable;
 
 /**
  * Class for check write permissions on folders
@@ -33,28 +33,13 @@ class FileStorageCheckCollection implements CheckCollectionInterface
     {
         $checks = [];
 
-        foreach ($this->checkDirs as $checkDir) {
+        foreach ($this->checkDirs as $key => $checkDir) {
             $check = new DirWritable($checkDir);
             $check->setLabel(sprintf('Check if "%s" is writable', $checkDir));
 
-            $checks[$this->getCheckShortName($checkDir)] = $check;
+            $checks[$key] = $check;
         }
 
         return $checks;
-    }
-
-    /**
-     * @param string $checkDir
-     * @return string
-     */
-    private function getCheckShortName(string $checkDir): string
-    {
-        if (strpos($checkDir, $this->rootDir) === 0) {
-            $checkDir = ltrim(str_replace($this->rootDir, '', $checkDir), '/');
-        }
-
-        $checkDir = preg_replace('/[^[:alpha:]]/', '_', $checkDir);
-
-        return preg_replace('/_{2,}/', '_', sprintf('fs_%s', $checkDir));
     }
 }
