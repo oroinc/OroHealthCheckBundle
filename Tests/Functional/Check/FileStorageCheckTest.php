@@ -32,10 +32,19 @@ class FileStorageCheckTest extends WebTestCase
     public function testServiceCheck()
     {
         $fileStorageChecks = static::getContainer()->get('oro_health_check.check.file_storage')->getChecks();
-        foreach ($fileStorageChecks as $fileStorageCheck) {
+        $expectedKeys = [
+            'fs_var_cache_prod',
+            'fs_var_logs',
+            'fs_public_media',
+            'fs_public_uploads',
+            'fs_var_attachment',
+            'fs_var_import_export'
+        ];
+        foreach ($fileStorageChecks as $key => $fileStorageCheck) {
             $result = $fileStorageCheck->check();
 
             $this->assertInstanceOf(Success::class, $result);
+            $this->assertEquals(array_shift($expectedKeys), $key);
         }
     }
 }
