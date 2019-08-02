@@ -22,12 +22,12 @@ services:
         arguments:
             - '%kernel.project_dir%'
             -
-                - '%kernel.cache_dir%'
-                - '%kernel.logs_dir%'
-                - '%kernel.project_dir%/public/media'
-                - '%kernel.project_dir%/public/uploads'
-                - '%kernel.project_dir%/var/%oro_attachment.attachments_dir%'
-                - '%kernel.project_dir%/var/%oro_importexport.importexport_dir%'
+                fs_var_cache_prod: '%kernel.cache_dir%'
+                fs_var_logs: '%kernel.logs_dir%'
+                fs_public_media: '%kernel.project_dir%/public/media'
+                fs_public_uploads: '%kernel.project_dir%/public/uploads'
+                fs_var_attachment: '%kernel.project_dir%/var/%oro_attachment.attachments_dir%'
+                fs_var_import_export: '%kernel.project_dir%/var/%oro_importexport.importexport_dir%'
         tags:
             - { name: liip_monitor.check_collection, alias: file_storage }
 
