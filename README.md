@@ -195,7 +195,7 @@ oro_health_check:
     maintenance_driver:
         class: 'Oro\Bundle\HealthCheckBundle\Drivers\FileDriver'
         options:
-            file_path: %kernel.root_dir%/cache/maintenance_lock
+            file_path: %kernel.project_dir%/var/cache/maintenance_lock
             ttl: 600
 ```
 
