@@ -11,7 +11,7 @@
         }
     ],
     "require": {
-        "oro/platform-enterprise": "4.0.*",
+        "oro/platform-enterprise": "4.1.*",
         "liip/monitor-bundle": "2.*",
         "lexik/maintenance-bundle": "2.*"
     },
@@ -33,7 +33,7 @@
     "prefer-stable": true,
     "extra": {
         "branch-alias": {
-            "dev-master": "4.0-dev"
+            "dev-master": "4.1-dev"
         }
     }
 }
