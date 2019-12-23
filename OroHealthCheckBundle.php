@@ -2,9 +2,15 @@
 
 namespace Oro\Bundle\HealthCheckBundle;
 
+use Oro\Bundle\HealthCheckBundle\DependencyInjection\Compiler\RunnersCompilerPass;
 use Oro\Bundle\HealthCheckBundle\DependencyInjection\OroHealthCheckExtension;
+use Symfony\Component\DependencyInjection\Compiler\PassConfig;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\HttpKernel\Bundle\Bundle;
 
+/**
+ * OroHealthCheckBundle implements a set of health checks for applications built on OroPlatform.
+ */
 class OroHealthCheckBundle extends Bundle
 {
     /**
@@ -17,5 +23,15 @@ class OroHealthCheckBundle extends Bundle
         }
 
         return $this->extension;
+    }
+
+    /**
+     * @param ContainerBuilder $container
+     */
+    public function build(ContainerBuilder $container)
+    {
+        parent::build($container);
+
+        $container->addCompilerPass(new RunnersCompilerPass(), PassConfig::TYPE_BEFORE_OPTIMIZATION, -1);
     }
 }
