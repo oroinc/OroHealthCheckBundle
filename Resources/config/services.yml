@@ -110,3 +110,8 @@ services:
             - '%websocket_frontend_path%'
             - "@=parameter('websocket_frontend_port') in parameter('oro_health_check_websocket_frontend_secure_ports') ? parameter('oro_health_check_websocket_frontend_secure_protocol') : 'tcp'"
             - '%oro_health_check_websocket_frontend_ssl_context_options%'
+
+    oro_health_check.helper.logger_reporter:
+        class: Oro\Bundle\HealthCheckBundle\Helper\LoggerReporter
+        arguments:
+            - '@logger'
