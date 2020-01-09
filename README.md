@@ -272,10 +272,13 @@ oro_health_check.check.custom_collection:
         - { name: liip_monitor.check_collection, alias: custom_collection }
 ```
 
-## Links
+Resources
+---------
 
-- [Liip Monitor Bundle][1]
-- [ZendDiagnostics][2]
+  * [OroCommerce, OroCRM and OroPlatform Documentation](https://doc.oroinc.com)
+  * [Contributing](https://doc.oroinc.com/community/contribute/)
+  * [Liip Monitor Bundle][1]
+  * [ZendDiagnostics][2]
 
 [1]: https://github.com/liip/LiipMonitorBundle
 [2]: https://github.com/zendframework/ZendDiagnostics
