@@ -34,11 +34,10 @@ services:
     oro_health_check.check.redis:
         class: Oro\Bundle\HealthCheckBundle\Check\RedisCheckCollection
         arguments:
-            - '@service_container'
             -
-                'Redis cache': snc_redis.cache
-                'Redis doctrine cache': snc_redis.doctrine
-                'Redis session storage': snc_redis.session
+                'Redis cache': '@?snc_redis.cache'
+                'Redis doctrine cache': '@?snc_redis.doctrine'
+                'Redis session storage': '@?snc_redis.session'
         tags:
             - { name: liip_monitor.check_collection, alias: redis_servers }
 

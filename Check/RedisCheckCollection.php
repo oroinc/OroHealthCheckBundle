@@ -10,9 +10,6 @@ use ZendDiagnostics\Check\CheckCollectionInterface;
  */
 class RedisCheckCollection implements CheckCollectionInterface
 {
-    /** @var ContainerInterface */
-    protected $container;
-    
     /** @var array */
     protected $clients;
 
@@ -20,25 +17,9 @@ class RedisCheckCollection implements CheckCollectionInterface
      * @param ContainerInterface $container
      * @param array $clients
      */
-    public function __construct(ContainerInterface $container, array $clients)
+    public function __construct(array $clients)
     {
-        $this->container = $container;
-        $this->clients = $clients;
-    }
-    
-    /**
-     * @return array
-     */
-    protected function getClients(): array
-    {
-        $clients = array_map(
-            function (string $client) {
-                return $this->container->get($client, ContainerInterface::NULL_ON_INVALID_REFERENCE);
-            },
-            $this->clients
-        );
-
-        return array_filter($clients);
+        $this->clients = array_filter($clients);
     }
 
     /**
@@ -47,7 +28,7 @@ class RedisCheckCollection implements CheckCollectionInterface
     public function getChecks(): array
     {
         $checks = [];
-        foreach ($this->getClients() as $label => $client) {
+        foreach ($this->clients as $label => $client) {
             $checks[$this->getCheckId($label)] = new RedisCheck($client, $label);
         }
 
