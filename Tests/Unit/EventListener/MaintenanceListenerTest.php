@@ -16,7 +16,7 @@ class MaintenanceListenerTest extends \PHPUnit\Framework\TestCase
     /** @var MaintenanceListener */
     protected $listener;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->lexikListener = $this->createMock(LexikMaintenanceListener::class);
 

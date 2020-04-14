@@ -21,7 +21,7 @@ class ElasticsearchCheckTest extends \PHPUnit\Framework\TestCase
     /** @var ClientFactory|\PHPUnit\Framework\MockObject\MockObject */
     protected $clientFactory;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->clientFactory = $this->createMock(ClientFactory::class);
     }

@@ -21,7 +21,7 @@ class MaintenanceModeCheckTest extends WebTestCase
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->initClient([], $this->generateBasicAuthHeader());
 
@@ -31,7 +31,7 @@ class MaintenanceModeCheckTest extends WebTestCase
         $this->driver = $container->get('lexik_maintenance.driver.factory')->getDriver();
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->driver->unlock();
     }

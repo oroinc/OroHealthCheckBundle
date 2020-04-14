@@ -14,7 +14,7 @@ class RedisCheckTest extends \PHPUnit\Framework\TestCase
     /** @var RedisCheck */
     protected $check;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->client = $this->createMock(PredisClient::class);
 

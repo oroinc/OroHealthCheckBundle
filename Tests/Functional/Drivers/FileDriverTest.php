@@ -13,7 +13,7 @@ class FileDriverTest extends WebTestCase
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->initClient([], $this->generateBasicAuthHeader());
         $this->driver = static::getContainer()->get('lexik_maintenance.driver.factory')->getDriver();
@@ -22,7 +22,7 @@ class FileDriverTest extends WebTestCase
         }
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         $this->driver->unlock();
     }

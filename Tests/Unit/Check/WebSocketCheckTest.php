@@ -13,7 +13,7 @@ class WebSocketCheckTest extends \PHPUnit\Framework\TestCase
     /** @var ConnectionChecker|\PHPUnit\Framework\MockObject\MockObject */
     private $checker;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->checker = $this->createMock(ConnectionChecker::class);
     }

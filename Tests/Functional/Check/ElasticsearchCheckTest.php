@@ -12,7 +12,7 @@ class ElasticsearchCheckTest extends WebTestCase
     /**
      * {@inheritdoc}
      */
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->initClient([], $this->generateBasicAuthHeader());
 
@@ -20,7 +20,7 @@ class ElasticsearchCheckTest extends WebTestCase
             $this->markTestSkipped('ElasticSearch engine is not configured.');
         }
     }
-    
+
     public function testExecuteApiCall()
     {
         $this->client->request(
@@ -30,7 +30,7 @@ class ElasticsearchCheckTest extends WebTestCase
 
         $this->assertResponseStatusCodeEquals($this->client->getResponse(), Response::HTTP_OK);
     }
-    
+
     public function testServiceCheck()
     {
         $elasticSearchCheck = static::getContainer()->get('oro_health_check.check.elasticsearch');

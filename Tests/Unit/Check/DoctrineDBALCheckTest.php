@@ -10,7 +10,7 @@ class DoctrineDBALCheckTest extends \PHPUnit\Framework\TestCase
     /** @var DoctrineDbalCheck */
     protected $check;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         /** @var ManagerRegistry $doctrine */
         $doctrine = $this->createMock(ManagerRegistry::class);

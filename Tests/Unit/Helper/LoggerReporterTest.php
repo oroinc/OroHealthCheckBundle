@@ -21,7 +21,7 @@ class LoggerReporterTest extends \PHPUnit\Framework\TestCase
      */
     private $reporter;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->logger = $this->createMock(LoggerInterface::class);
         $this->reporter = new LoggerReporter($this->logger);

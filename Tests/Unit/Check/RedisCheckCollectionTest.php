@@ -11,7 +11,7 @@ class RedisCheckCollectionTest extends \PHPUnit\Framework\TestCase
     /** @var RedisCheckCollection */
     protected $check;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->check = new RedisCheckCollection(
             [

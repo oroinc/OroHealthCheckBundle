@@ -13,7 +13,7 @@ class MailTransportCheckTest extends \PHPUnit\Framework\TestCase
     /** @var MailTransportCheck */
     protected $check;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->transport = $this->createMock(\Swift_Transport::class);
 

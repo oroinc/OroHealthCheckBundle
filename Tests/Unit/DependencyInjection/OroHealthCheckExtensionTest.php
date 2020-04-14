@@ -11,7 +11,7 @@ class OroHealthCheckExtensionTest extends ExtensionTestCase
     /** @var OroHealthCheckExtension */
     protected $extension;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->extension = new OroHealthCheckExtension();
     }
