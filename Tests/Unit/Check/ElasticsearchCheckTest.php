@@ -30,10 +30,10 @@ class ElasticsearchCheckTest extends \PHPUnit\Framework\TestCase
      * @dataProvider checkDataProvider
      *
      * @param bool $ping
-     * @param string $isAlive
+     * @param bool $isAlive
      * @param ResultInterface $expected
      */
-    public function testCheckConfigured(bool $ping, string $isAlive, ResultInterface $expected)
+    public function testCheckConfigured(bool $ping, bool $isAlive, ResultInterface $expected)
     {
         /** @var Connection|\PHPUnit\Framework\MockObject\MockObject $connection */
         $connection = $this->createMock(Connection::class);
