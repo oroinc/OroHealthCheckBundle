@@ -193,7 +193,7 @@ The following example illustrates the configuration which can be used in _config
 ```yaml
 oro_health_check:
     maintenance_driver:
-        class: 'Oro\Bundle\HealthCheckBundle\Drivers\FileDriver'
+        class: Oro\Bundle\HealthCheckBundle\Drivers\FileDriver
         options:
             file_path: %kernel.project_dir%/var/cache/maintenance_lock
             ttl: 600
