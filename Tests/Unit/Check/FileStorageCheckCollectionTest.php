@@ -2,8 +2,8 @@
 
 namespace Oro\Bundle\HealthCheckBundle\Tests\Unit\Check;
 
+use Laminas\Diagnostics\Check\DirWritable;
 use Oro\Bundle\HealthCheckBundle\Check\FileStorageCheckCollection;
-use ZendDiagnostics\Check\DirWritable;
 
 class FileStorageCheckCollectionTest extends \PHPUnit\Framework\TestCase
 {

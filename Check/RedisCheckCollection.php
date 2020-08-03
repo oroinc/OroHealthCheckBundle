@@ -2,8 +2,8 @@
 
 namespace Oro\Bundle\HealthCheckBundle\Check;
 
+use Laminas\Diagnostics\Check\CheckCollectionInterface;
 use Symfony\Component\DependencyInjection\ContainerInterface;
-use ZendDiagnostics\Check\CheckCollectionInterface;
 
 /**
  * Class for check redis availability in case if it is configured

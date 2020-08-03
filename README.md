@@ -201,16 +201,16 @@ oro_health_check:
 
 ## Build your own check
 
-Each health check class must implement the `ZendDiagnostics\Check\CheckInterface` interface.
+Each health check class must implement the `Laminas\Diagnostics\Check\CheckInterface` interface.
 ```php
 <?php
 
 namespace Oro\Bundle\HealthCheckBundle\Check;
 
-use ZendDiagnostics\Check\CheckInterface;
-use ZendDiagnostics\Result\ResultInterface;
-use ZendDiagnostics\Result\Success;
-use ZendDiagnostics\Result\Failure;
+use Laminas\Diagnostics\Check\CheckInterface;
+use Laminas\Diagnostics\Result\ResultInterface;
+use Laminas\Diagnostics\Result\Success;
+use Laminas\Diagnostics\Result\Failure;
 
 class CustomCheck implements CheckInterface
 {
@@ -243,14 +243,14 @@ oro_health_check.check.custom:
         - { name: liip_monitor.check, alias: custom }
 ```
 
-Alternatively, if you need to run various checks inside one service, implement the `ZendDiagnostics\Check\CheckCollectionInterface` interface.
+Alternatively, if you need to run various checks inside one service, implement the `Laminas\Diagnostics\Check\CheckCollectionInterface` interface.
 The `getChecks()` method of this interface returns an array of checks that need to be executed.
 ```php
 <?php
 
 namespace Oro\Bundle\HealthCheckBundle\Check;
 
-use ZendDiagnostics\Check\CheckCollectionInterface;
+use Laminas\Diagnostics\Check\CheckCollectionInterface;
 
 class CustomCheckCollection implements CheckCollectionInterface
 {

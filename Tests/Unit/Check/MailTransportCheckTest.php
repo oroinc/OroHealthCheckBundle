@@ -2,8 +2,8 @@
 
 namespace Oro\Bundle\HealthCheckBundle\Tests\Unit\Check;
 
+use Laminas\Diagnostics\Result\Success;
 use Oro\Bundle\HealthCheckBundle\Check\MailTransportCheck;
-use ZendDiagnostics\Result\Success;
 
 class MailTransportCheckTest extends \PHPUnit\Framework\TestCase
 {

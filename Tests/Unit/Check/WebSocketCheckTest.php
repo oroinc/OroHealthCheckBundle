@@ -2,11 +2,11 @@
 
 namespace Oro\Bundle\HealthCheckBundle\Tests\Unit\Check;
 
+use Laminas\Diagnostics\Result\Failure;
+use Laminas\Diagnostics\Result\Skip;
+use Laminas\Diagnostics\Result\Success;
 use Oro\Bundle\HealthCheckBundle\Check\WebSocketCheck;
 use Oro\Bundle\SyncBundle\Client\ConnectionChecker;
-use ZendDiagnostics\Result\Failure;
-use ZendDiagnostics\Result\Skip;
-use ZendDiagnostics\Result\Success;
 
 class WebSocketCheckTest extends \PHPUnit\Framework\TestCase
 {

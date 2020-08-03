@@ -2,9 +2,9 @@
 
 namespace Oro\Bundle\HealthCheckBundle\Tests\Unit\Check;
 
+use Laminas\Diagnostics\Result\Success;
 use Oro\Bundle\HealthCheckBundle\Check\RedisCheck;
 use Oro\Bundle\HealthCheckBundle\Tests\Unit\Stub\PredisClient;
-use ZendDiagnostics\Result\Success;
 
 class RedisCheckTest extends \PHPUnit\Framework\TestCase
 {

@@ -2,13 +2,13 @@
 
 namespace Oro\Bundle\HealthCheckBundle\Helper;
 
+use Laminas\Diagnostics\Check\CheckInterface;
+use Laminas\Diagnostics\Result\Collection as ResultsCollection;
+use Laminas\Diagnostics\Result\FailureInterface;
+use Laminas\Diagnostics\Result\ResultInterface;
+use Laminas\Diagnostics\Result\WarningInterface;
+use Laminas\Diagnostics\Runner\Reporter\ReporterInterface;
 use Psr\Log\LoggerInterface;
-use ZendDiagnostics\Check\CheckInterface;
-use ZendDiagnostics\Result\Collection as ResultsCollection;
-use ZendDiagnostics\Result\FailureInterface;
-use ZendDiagnostics\Result\ResultInterface;
-use ZendDiagnostics\Result\WarningInterface;
-use ZendDiagnostics\Runner\Reporter\ReporterInterface;
 
 /**
  * Healthcheck reporter that logged all errors and warnings.

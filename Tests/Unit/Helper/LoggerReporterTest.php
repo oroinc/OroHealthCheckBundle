@@ -2,12 +2,12 @@
 
 namespace Oro\Bundle\HealthCheckBundle\Tests\Unit\EventListener;
 
+use Laminas\Diagnostics\Check\CheckInterface;
+use Laminas\Diagnostics\Result\FailureInterface;
+use Laminas\Diagnostics\Result\ResultInterface;
+use Laminas\Diagnostics\Result\WarningInterface;
 use Oro\Bundle\HealthCheckBundle\Helper\LoggerReporter;
 use Psr\Log\LoggerInterface;
-use ZendDiagnostics\Check\CheckInterface;
-use ZendDiagnostics\Result\FailureInterface;
-use ZendDiagnostics\Result\ResultInterface;
-use ZendDiagnostics\Result\WarningInterface;
 
 class LoggerReporterTest extends \PHPUnit\Framework\TestCase
 {

@@ -3,13 +3,13 @@
 namespace Oro\Bundle\HealthCheckBundle\Check;
 
 use Elasticsearch\Connections\Connection;
+use Laminas\Diagnostics\Check\CheckInterface;
+use Laminas\Diagnostics\Result\Failure;
+use Laminas\Diagnostics\Result\ResultInterface;
+use Laminas\Diagnostics\Result\Skip;
+use Laminas\Diagnostics\Result\Success;
 use Oro\Bundle\ElasticSearchBundle\Client\ClientFactory;
 use Oro\Bundle\ElasticSearchBundle\Engine\ElasticSearch as ElasticsearchEngine;
-use ZendDiagnostics\Check\CheckInterface;
-use ZendDiagnostics\Result\Failure;
-use ZendDiagnostics\Result\ResultInterface;
-use ZendDiagnostics\Result\Skip;
-use ZendDiagnostics\Result\Success;
 
 /**
  * Class for check Elasticsearch availability
@@ -24,7 +24,7 @@ class ElasticsearchCheck implements CheckInterface
 
     /** @var array */
     protected $engineParameters;
-    
+
     /**
      * @param ClientFactory $clientFactory
      * @param string $engineName
@@ -55,7 +55,7 @@ class ElasticsearchCheck implements CheckInterface
 
         return new Skip('Elasticsearch connection is not configured. Check Skipped.');
     }
-    
+
     /**
      * @return bool
      */
@@ -63,7 +63,7 @@ class ElasticsearchCheck implements CheckInterface
     {
         return ElasticsearchEngine::ENGINE_NAME === $this->engineName;
     }
-    
+
     /**
      * {@inheritdoc}
      */

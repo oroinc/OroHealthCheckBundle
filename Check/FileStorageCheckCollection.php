@@ -2,8 +2,8 @@
 
 namespace Oro\Bundle\HealthCheckBundle\Check;
 
-use ZendDiagnostics\Check\CheckCollectionInterface;
-use ZendDiagnostics\Check\DirWritable;
+use Laminas\Diagnostics\Check\CheckCollectionInterface;
+use Laminas\Diagnostics\Check\DirWritable;
 
 /**
  * Class for check write permissions on folders

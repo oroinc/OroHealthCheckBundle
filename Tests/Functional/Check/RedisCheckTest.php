@@ -2,9 +2,9 @@
 
 namespace Oro\Bundle\HealthCheckBundle\Tests\Functional\Check;
 
+use Laminas\Diagnostics\Result\Success;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
-use ZendDiagnostics\Result\Success;
 
 class RedisCheckTest extends WebTestCase
 {

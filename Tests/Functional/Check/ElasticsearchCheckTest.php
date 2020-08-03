@@ -2,10 +2,10 @@
 
 namespace Oro\Bundle\HealthCheckBundle\Tests\Functional\Check;
 
+use Laminas\Diagnostics\Result\Success;
 use Oro\Bundle\ElasticSearchBundle\Engine\ElasticSearch as ElasticsearchEngine;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
-use ZendDiagnostics\Result\Success;
 
 class ElasticsearchCheckTest extends WebTestCase
 {

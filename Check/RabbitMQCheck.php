@@ -2,11 +2,11 @@
 
 namespace Oro\Bundle\HealthCheckBundle\Check;
 
+use Laminas\Diagnostics\Check\CheckInterface;
+use Laminas\Diagnostics\Result\ResultInterface;
+use Laminas\Diagnostics\Result\Skip;
+use Laminas\Diagnostics\Result\Success;
 use Oro\Component\AmqpMessageQueue\Transport\Amqp\AmqpConnection;
-use ZendDiagnostics\Check\CheckInterface;
-use ZendDiagnostics\Result\ResultInterface;
-use ZendDiagnostics\Result\Skip;
-use ZendDiagnostics\Result\Success;
 
 /**
  * Class for check RabbitMQ availability

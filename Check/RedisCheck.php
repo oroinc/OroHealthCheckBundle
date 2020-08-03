@@ -2,10 +2,10 @@
 
 namespace Oro\Bundle\HealthCheckBundle\Check;
 
+use Laminas\Diagnostics\Check\CheckInterface;
+use Laminas\Diagnostics\Result\ResultInterface;
+use Laminas\Diagnostics\Result\Success;
 use Predis\Client as PredisClient;
-use ZendDiagnostics\Check\CheckInterface;
-use ZendDiagnostics\Result\ResultInterface;
-use ZendDiagnostics\Result\Success;
 
 /**
  * Validate that a Redis service is running
@@ -34,7 +34,7 @@ class RedisCheck implements CheckInterface
     public function check(): ResultInterface
     {
         $this->client->ping();
-        
+
         return new Success();
     }
 

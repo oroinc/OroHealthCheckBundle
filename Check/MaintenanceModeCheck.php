@@ -2,12 +2,12 @@
 
 namespace Oro\Bundle\HealthCheckBundle\Check;
 
+use Laminas\Diagnostics\Check\CheckInterface;
+use Laminas\Diagnostics\Result\Failure;
+use Laminas\Diagnostics\Result\ResultInterface;
+use Laminas\Diagnostics\Result\Success;
 use Lexik\Bundle\MaintenanceBundle\Drivers\DriverFactory;
 use Oro\Bundle\HealthCheckBundle\Drivers\FileDriver;
-use ZendDiagnostics\Check\CheckInterface;
-use ZendDiagnostics\Result\Failure;
-use ZendDiagnostics\Result\ResultInterface;
-use ZendDiagnostics\Result\Success;
 
 /**
  * Class for check Maintenance Mode

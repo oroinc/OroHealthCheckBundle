@@ -2,13 +2,13 @@
 
 namespace Oro\Bundle\HealthCheckBundle\Tests\Unit\Check;
 
+use Laminas\Diagnostics\Result\Failure;
+use Laminas\Diagnostics\Result\ResultInterface;
+use Laminas\Diagnostics\Result\Success;
 use Lexik\Bundle\MaintenanceBundle\Drivers\AbstractDriver;
 use Lexik\Bundle\MaintenanceBundle\Drivers\DriverFactory;
 use Oro\Bundle\HealthCheckBundle\Check\MaintenanceModeCheck;
 use Oro\Bundle\HealthCheckBundle\Drivers\FileDriver;
-use ZendDiagnostics\Result\Failure;
-use ZendDiagnostics\Result\ResultInterface;
-use ZendDiagnostics\Result\Success;
 
 class MaintenanceModeCheckTest extends \PHPUnit\Framework\TestCase
 {

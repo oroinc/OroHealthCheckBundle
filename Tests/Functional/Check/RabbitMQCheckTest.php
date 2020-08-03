@@ -2,10 +2,10 @@
 
 namespace Oro\Bundle\HealthCheckBundle\Tests\Functional\Check;
 
+use Laminas\Diagnostics\Result\Skip;
+use Laminas\Diagnostics\Result\Success;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
-use ZendDiagnostics\Result\Skip;
-use ZendDiagnostics\Result\Success;
 
 class RabbitMQCheckTest extends WebTestCase
 {
@@ -16,7 +16,7 @@ class RabbitMQCheckTest extends WebTestCase
     {
         $this->initClient([], $this->generateBasicAuthHeader());
     }
-    
+
     public function testExecuteApiCall()
     {
         $this->client->request(
@@ -26,7 +26,7 @@ class RabbitMQCheckTest extends WebTestCase
 
         $this->assertResponseStatusCodeEquals($this->client->getResponse(), Response::HTTP_OK);
     }
-    
+
     public function testServiceCheck()
     {
         $rabbitMqCheck = static::getContainer()->get('oro_health_check.check.rabbitmq');

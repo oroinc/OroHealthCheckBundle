@@ -2,10 +2,10 @@
 
 namespace Oro\Bundle\HealthCheckBundle\Tests\Functional\Check;
 
+use Laminas\Diagnostics\Result\Failure;
+use Laminas\Diagnostics\Result\Skip;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
-use ZendDiagnostics\Result\Failure;
-use ZendDiagnostics\Result\Skip;
 
 /**
  * CI does not run clank server.

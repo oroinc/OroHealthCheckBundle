@@ -2,8 +2,8 @@
 
 namespace Oro\Bundle\HealthCheckBundle\Tests\Unit\Check;
 
+use Laminas\Diagnostics\Result\Skip;
 use Oro\Bundle\HealthCheckBundle\Check\RabbitMQCheck;
-use ZendDiagnostics\Result\Skip;
 
 class RabbitMQCheckTest extends \PHPUnit\Framework\TestCase
 {

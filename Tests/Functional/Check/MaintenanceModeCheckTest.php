@@ -2,13 +2,13 @@
 
 namespace Oro\Bundle\HealthCheckBundle\Tests\Functional\Check;
 
+use Laminas\Diagnostics\Check\CheckInterface;
+use Laminas\Diagnostics\Result\Failure;
+use Laminas\Diagnostics\Result\Success;
 use Lexik\Bundle\MaintenanceBundle\Drivers\AbstractDriver;
 use Oro\Bundle\HealthCheckBundle\Drivers\FileDriver;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
-use ZendDiagnostics\Check\CheckInterface;
-use ZendDiagnostics\Result\Failure;
-use ZendDiagnostics\Result\Success;
 
 class MaintenanceModeCheckTest extends WebTestCase
 {

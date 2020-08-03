@@ -6,13 +6,13 @@ use Elasticsearch\Client;
 use Elasticsearch\Connections\Connection;
 use Elasticsearch\Connections\ConnectionInterface;
 use Elasticsearch\Transport;
+use Laminas\Diagnostics\Result\Failure;
+use Laminas\Diagnostics\Result\ResultInterface;
+use Laminas\Diagnostics\Result\Skip;
+use Laminas\Diagnostics\Result\Success;
 use Oro\Bundle\ElasticSearchBundle\Client\ClientFactory;
 use Oro\Bundle\ElasticSearchBundle\Engine\ElasticSearch as ElasticsearchEngine;
 use Oro\Bundle\HealthCheckBundle\Check\ElasticsearchCheck;
-use ZendDiagnostics\Result\Failure;
-use ZendDiagnostics\Result\ResultInterface;
-use ZendDiagnostics\Result\Skip;
-use ZendDiagnostics\Result\Success;
 
 class ElasticsearchCheckTest extends \PHPUnit\Framework\TestCase
 {
