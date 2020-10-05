@@ -12,8 +12,7 @@
     ],
     "require": {
         "oro/platform-enterprise": "4.2.*",
-        "liip/monitor-bundle": "2.*",
-        "lexik/maintenance-bundle": "2.*"
+        "liip/monitor-bundle": "2.*"
     },
     "autoload": {
         "psr-4": { "Oro\\Bundle\\HealthCheckBundle\\": "" },
