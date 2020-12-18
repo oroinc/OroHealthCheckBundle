@@ -24,10 +24,8 @@ services:
             -
                 fs_var_cache_prod: '%kernel.cache_dir%'
                 fs_var_logs: '%kernel.logs_dir%'
+                fs_var_data: '%kernel.project_dir%/var/data'
                 fs_public_media: '%kernel.project_dir%/public/media'
-                fs_public_uploads: '%kernel.project_dir%/public/uploads'
-                fs_var_attachment: '%kernel.project_dir%/var/%oro_attachment.filesystem_dir.attachments%'
-                fs_var_import_export: '%kernel.project_dir%/var/%oro_importexport.importexport_dir%'
         tags:
             - { name: liip_monitor.check_collection, alias: file_storage }
 

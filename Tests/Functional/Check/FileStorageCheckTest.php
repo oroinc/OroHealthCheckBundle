@@ -35,10 +35,8 @@ class FileStorageCheckTest extends WebTestCase
         $expectedKeys = [
             'fs_var_cache_prod',
             'fs_var_logs',
-            'fs_public_media',
-            'fs_public_uploads',
-            'fs_var_attachment',
-            'fs_var_import_export'
+            'fs_var_data',
+            'fs_public_media'
         ];
         foreach ($fileStorageChecks as $key => $fileStorageCheck) {
             $result = $fileStorageCheck->check();

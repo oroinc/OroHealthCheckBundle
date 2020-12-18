@@ -46,11 +46,9 @@ You can use the health check via:
     websocket Check if WebSocket server is available
     maintenance_mode Check if Maintenance Mode is running and not expired
     fs_cache_prod Check if "/var/www/var/cache/prod" is writable
-    fs_attachment Check if "/var/www/var/attachment" is writable
     fs_logs Check if "/var/www/var/logs" is writable
-    fs_import_export Check if "/var/www/var/import_export" is writable
+    fs_var_data Check if "/var/www/var/data" is writable
     fs_web_media Check if "/var/www/public/media" is writable
-    fs_web_uploads Check if "/var/www/public/uploads" is writable
     redis_cache Check if Redis cache is available
     redis_doctrine_cache Check if Redis doctrine cache is available
     redis_session_storage Check if Redis session storage is available
@@ -67,11 +65,9 @@ You can use the health check via:
     FAIL Check if WebSocket server is available: Not available
     FAIL Check if Maintenance Mode is running and not expired: Expired
     OK Check if "/var/www/var/cache/prod" is writable: The path is a writable directory.
-    OK Check if "/var/www/var/attachment" is writable: The path is a writable directory.
     OK Check if "/var/www/var/logs" is writable: The path is a writable directory.
-    OK Check if "/var/www/var/import_export" is writable: The path is a writable directory.
+    OK Check if "/var/www/var/data" is writable: The path is a writable directory.
     OK Check if "/var/www/public/media" is writable: The path is a writable directory.
-    OK Check if "/var/www/public/uploads" is writable: The path is a writable directory.
     OK Check if Redis cache is available
     OK Check if Redis doctrine cache is available
     OK Check if Redis session storage is available
@@ -145,9 +141,7 @@ Verifies if Elasticsearch server is accessible and may be connected via the appl
 Verifies if specific directories are accessible for writing:
 - cache
 - logs
-- attachment
-- import_export
-- uploads
+- data
 - media
 
 ### Mail Transport connection
