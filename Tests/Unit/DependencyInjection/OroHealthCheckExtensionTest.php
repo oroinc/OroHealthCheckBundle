@@ -1,24 +1,20 @@
 <?php
+declare(strict_types=1);
 
 namespace Oro\Bundle\HealthCheckBundle\Tests\Unit\DependencyInjection;
 
 use Oro\Bundle\HealthCheckBundle\DependencyInjection\OroHealthCheckExtension;
 use Oro\Bundle\HealthCheckBundle\Drivers\FileDriver;
 use Oro\Bundle\TestFrameworkBundle\Test\DependencyInjection\ExtensionTestCase;
+use Symfony\Component\DependencyInjection\ContainerBuilder;
 
 class OroHealthCheckExtensionTest extends ExtensionTestCase
 {
-    /** @var OroHealthCheckExtension */
-    protected $extension;
+    protected OroHealthCheckExtension $extension;
 
-    protected function setUp(): void
+    public function testLoad(): void
     {
-        $this->extension = new OroHealthCheckExtension();
-    }
-
-    public function testLoad()
-    {
-        $this->loadExtension($this->extension);
+        $this->loadExtension(new OroHealthCheckExtension());
 
         $this->assertDefinitionsLoaded(
             [
@@ -35,7 +31,7 @@ class OroHealthCheckExtensionTest extends ExtensionTestCase
             ]
         );
         $this->assertParametersLoaded(['lexik_maintenance.driver']);
-        $this->assertEquals(
+        static::assertEquals(
             [
                 'class' => FileDriver::class,
                 'options' => [
@@ -47,13 +43,10 @@ class OroHealthCheckExtensionTest extends ExtensionTestCase
         );
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function getContainerMock()
+    protected function getContainerMock(): ContainerBuilder
     {
-        $container = parent::getContainerMock();
-        $container->expects($this->any())
+        $containerBuilder = parent::getContainerMock();
+        $containerBuilder
             ->method('getParameter')
             ->with('lexik_maintenance.driver')
             ->willReturn(
@@ -64,6 +57,6 @@ class OroHealthCheckExtensionTest extends ExtensionTestCase
                 ]
             );
 
-        return $container;
+        return $containerBuilder;
     }
 }
