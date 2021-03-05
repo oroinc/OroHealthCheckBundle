@@ -2,7 +2,6 @@
 
 namespace Oro\Bundle\HealthCheckBundle\Check;
 
-use Symfony\Component\DependencyInjection\ContainerInterface;
 use ZendDiagnostics\Check\CheckCollectionInterface;
 
 /**
@@ -14,7 +13,6 @@ class RedisCheckCollection implements CheckCollectionInterface
     protected $clients;
 
     /**
-     * @param ContainerInterface $container
      * @param array $clients
      */
     public function __construct(array $clients)
