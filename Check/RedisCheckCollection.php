@@ -3,7 +3,6 @@
 namespace Oro\Bundle\HealthCheckBundle\Check;
 
 use Laminas\Diagnostics\Check\CheckCollectionInterface;
-use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Class for check redis availability in case if it is configured
@@ -14,7 +13,6 @@ class RedisCheckCollection implements CheckCollectionInterface
     protected $clients;
 
     /**
-     * @param ContainerInterface $container
      * @param array $clients
      */
     public function __construct(array $clients)
