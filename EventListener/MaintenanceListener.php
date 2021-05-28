@@ -3,34 +3,25 @@
 namespace Oro\Bundle\HealthCheckBundle\EventListener;
 
 use Lexik\Bundle\MaintenanceBundle\Listener\MaintenanceListener as LexikMaintenanceListener;
-use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
+use Symfony\Component\HttpKernel\Event\ResponseEvent;
 
 /**
  * Allows to work with service routes in maintenance mode
  */
 class MaintenanceListener
 {
-    /** @var LexikMaintenanceListener */
-    protected $listenerInner;
+    protected LexikMaintenanceListener $listenerInner;
 
-    /** @var array */
-    protected $allowedRoutes = [];
+    protected array $allowedRoutes = [];
 
-    /**
-     * @param LexikMaintenanceListener $listenerInner
-     * @param array $allowedRoutes
-     */
     public function __construct(LexikMaintenanceListener $listenerInner, array $allowedRoutes)
     {
         $this->listenerInner = $listenerInner;
         $this->allowedRoutes = $allowedRoutes;
     }
 
-    /**
-     * @param GetResponseEvent $event
-     */
-    public function onKernelRequest(GetResponseEvent $event)
+    public function onKernelRequest(RequestEvent $event): void
     {
         $request = $event->getRequest();
         if (!in_array($request->get('_route'), $this->allowedRoutes, true)) {
@@ -38,10 +29,7 @@ class MaintenanceListener
         }
     }
 
-    /**
-     * @param FilterResponseEvent $event
-     */
-    public function onKernelResponse(FilterResponseEvent $event)
+    public function onKernelResponse(ResponseEvent $event): void
     {
         $this->listenerInner->onKernelResponse($event);
     }

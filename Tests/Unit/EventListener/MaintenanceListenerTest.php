@@ -5,16 +5,14 @@ namespace Oro\Bundle\HealthCheckBundle\Tests\Unit\EventListener;
 use Lexik\Bundle\MaintenanceBundle\Listener\MaintenanceListener as LexikMaintenanceListener;
 use Oro\Bundle\HealthCheckBundle\EventListener\MaintenanceListener;
 use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpKernel\Event\FilterResponseEvent;
-use Symfony\Component\HttpKernel\Event\GetResponseEvent;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
+use Symfony\Component\HttpKernel\Event\ResponseEvent;
 
 class MaintenanceListenerTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var LexikMaintenanceListener|\PHPUnit\Framework\MockObject\MockObject */
-    protected $lexikListener;
+    private LexikMaintenanceListener|\PHPUnit\Framework\MockObject\MockObject $lexikListener;
 
-    /** @var MaintenanceListener */
-    protected $listener;
+    private MaintenanceListener $listener;
 
     protected function setUp(): void
     {
@@ -23,58 +21,54 @@ class MaintenanceListenerTest extends \PHPUnit\Framework\TestCase
         $this->listener = new MaintenanceListener($this->lexikListener, ['test_route']);
     }
 
-    public function testOnKernelRequestAllowedRoute()
+    public function testOnKernelRequestAllowedRoute(): void
     {
-        /** @var GetResponseEvent|\PHPUnit\Framework\MockObject\MockObject $event */
-        $event = $this->createMock(GetResponseEvent::class);
-        $event->expects($this->once())
+        $event = $this->createMock(RequestEvent::class);
+        $event->expects(self::once())
             ->method('getRequest')
             ->willReturn(new Request([], [], ['_route' => 'test_route']));
 
-        $this->lexikListener->expects($this->never())
+        $this->lexikListener->expects(self::never())
             ->method('onKernelRequest');
 
         $this->listener->onKernelRequest($event);
     }
 
-    public function testOnKernelRequestNotAllowedRoute()
+    public function testOnKernelRequestNotAllowedRoute(): void
     {
-        /** @var GetResponseEvent|\PHPUnit\Framework\MockObject\MockObject $event */
-        $event = $this->createMock(GetResponseEvent::class);
-        $event->expects($this->once())
+        $event = $this->createMock(RequestEvent::class);
+        $event->expects(self::once())
             ->method('getRequest')
             ->willReturn(new Request([], [], ['_route' => 'test_route1']));
 
-        $this->lexikListener->expects($this->once())
+        $this->lexikListener->expects(self::once())
             ->method('onKernelRequest')
-            ->with($this->identicalTo($event));
+            ->with(self::identicalTo($event));
 
         $this->listener->onKernelRequest($event);
     }
 
-    public function testOnKernelRequestEmptyRequest()
+    public function testOnKernelRequestEmptyRequest(): void
     {
-        /** @var GetResponseEvent|\PHPUnit\Framework\MockObject\MockObject $event */
-        $event = $this->createMock(GetResponseEvent::class);
-        $event->expects($this->once())
+        $event = $this->createMock(RequestEvent::class);
+        $event->expects(self::once())
             ->method('getRequest')
             ->willReturn(new Request());
 
-        $this->lexikListener->expects($this->once())
+        $this->lexikListener->expects(self::once())
             ->method('onKernelRequest')
-            ->with($this->identicalTo($event));
+            ->with(self::identicalTo($event));
 
         $this->listener->onKernelRequest($event);
     }
 
-    public function testOnKernelResponse()
+    public function testOnKernelResponse(): void
     {
-        /** @var FilterResponseEvent $event */
-        $event = $this->createMock(FilterResponseEvent::class);
+        $event = $this->createMock(ResponseEvent::class);
 
-        $this->lexikListener->expects($this->once())
+        $this->lexikListener->expects(self::once())
             ->method('onKernelResponse')
-            ->with($this->identicalTo($event));
+            ->with(self::identicalTo($event));
 
         $this->listener->onKernelResponse($event);
     }
