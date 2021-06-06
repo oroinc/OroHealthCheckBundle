@@ -4,108 +4,52 @@ namespace Oro\Bundle\HealthCheckBundle\Tests\Unit\EventListener;
 
 use Oro\Bundle\HealthCheckBundle\DependencyInjection\Compiler\RunnersCompilerPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
-use Symfony\Component\DependencyInjection\Definition;
 
 class RunnersCompilerPassTest extends \PHPUnit\Framework\TestCase
 {
-    /**
-     * @var RunnersCompilerPass
-     */
-    private $pass;
+    /** @var RunnersCompilerPass */
+    private $compiler;
 
     protected function setUp(): void
     {
-        $this->pass = new RunnersCompilerPass();
+        $this->compiler = new RunnersCompilerPass();
     }
 
     public function testProcessWithoutParameter()
     {
-        /** @var ContainerBuilder|\PHPUnit\Framework\MockObject\MockObject $container */
-        $container = $this->createMock(ContainerBuilder::class);
-        $container->expects($this->once())
-            ->method('hasParameter')
-            ->with('liip_monitor.runners')
-            ->willReturn(false);
-        $container->expects($this->never())
-            ->method('getParameter');
-        $container->expects($this->never())
-            ->method('getDefinition');
+        $container = new ContainerBuilder();
 
-        $this->pass->process($container);
+        $this->compiler->process($container);
     }
 
     public function testProcessWithoutReporter()
     {
-        /** @var ContainerBuilder|\PHPUnit\Framework\MockObject\MockObject $container */
-        $container = $this->createMock(ContainerBuilder::class);
-        $container->expects($this->once())
-            ->method('hasParameter')
-            ->with('liip_monitor.runners')
-            ->willReturn(true);
-        $container->expects($this->once())
-            ->method('hasDefinition')
-            ->with('oro_health_check.helper.logger_reporter')
-            ->willReturn(false);
-        $container->expects($this->never())
-            ->method('getParameter');
-        $container->expects($this->never())
-            ->method('getDefinition');
+        $container = new ContainerBuilder();
+        $container->setParameter('liip_monitor.runners', ['test_runner']);
 
-        $this->pass->process($container);
+        $this->compiler->process($container);
     }
 
     public function testProcessWithEmptyRunners()
     {
-        /** @var ContainerBuilder|\PHPUnit\Framework\MockObject\MockObject $container */
-        $container = $this->createMock(ContainerBuilder::class);
-        $container->expects($this->once())
-            ->method('hasParameter')
-            ->with('liip_monitor.runners')
-            ->willReturn(true);
-        $container->expects($this->once())
-            ->method('hasDefinition')
-            ->with('oro_health_check.helper.logger_reporter')
-            ->willReturn(true);
-        $container->expects($this->once())
-            ->method('getParameter')
-            ->with('liip_monitor.runners')
-            ->willReturn([]);
-        $container->expects($this->never())
-            ->method('getDefinition');
+        $container = new ContainerBuilder();
+        $container->setParameter('liip_monitor.runners', []);
+        $container->register('oro_health_check.helper.logger_reporter');
 
-        $this->pass->process($container);
+        $this->compiler->process($container);
     }
 
     public function testProcess()
     {
-        /** @var ContainerBuilder|\PHPUnit\Framework\MockObject\MockObject $container */
-        $container = $this->createMock(ContainerBuilder::class);
-        $container->expects($this->once())
-            ->method('hasParameter')
-            ->with('liip_monitor.runners')
-            ->willReturn(true);
-        $container->expects($this->once())
-            ->method('hasDefinition')
-            ->with('oro_health_check.helper.logger_reporter')
-            ->willReturn(true);
-        $container->expects($this->once())
-            ->method('getParameter')
-            ->with('liip_monitor.runners')
-            ->willReturn(['test_runner']);
-        $reporter = new Definition();
-        $runner = new Definition();
-        $container->expects($this->exactly(2))
-            ->method('getDefinition')
-            ->withConsecutive(
-                ['oro_health_check.helper.logger_reporter'],
-                ['test_runner']
-            )
-            ->willReturnOnConsecutiveCalls($reporter, $runner);
+        $container = new ContainerBuilder();
+        $container->setParameter('liip_monitor.runners', ['test_runner1', 'test_runner2']);
+        $reporterDef = $container->register('oro_health_check.helper.logger_reporter');
+        $runner1Def = $container->register('test_runner1');
+        $runner2Def = $container->register('test_runner2');
 
-        $this->pass->process($container);
-        self::assertEquals(
-            [0 => null, 1 => null, 2 => $reporter],
-            $runner->getArguments()
-        );
+        $this->compiler->process($container);
+
+        self::assertEquals([null, null, $reporterDef], $runner1Def->getArguments());
+        self::assertEquals([null, null, $reporterDef], $runner2Def->getArguments());
     }
 }
