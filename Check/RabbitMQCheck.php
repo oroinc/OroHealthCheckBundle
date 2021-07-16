@@ -16,9 +16,6 @@ class RabbitMQCheck implements CheckInterface
     /** @var array|null */
     protected $config;
 
-    /**
-     * @param array|null $config
-     */
     public function __construct(array $config = null)
     {
         $this->config = $config;
@@ -53,9 +50,6 @@ class RabbitMQCheck implements CheckInterface
         return 'Check if RabbitMQ is available in case it is configured';
     }
 
-    /**
-     * @return bool
-     */
     protected function isConfigured(): bool
     {
         return is_array($this->config) &&

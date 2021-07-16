@@ -16,10 +16,6 @@ class FileStorageCheckCollection implements CheckCollectionInterface
     /** @var array */
     protected $checkDirs;
 
-    /**
-     * @param string $projectDir
-     * @param array $checkDirs
-     */
     public function __construct(string $projectDir, array $checkDirs)
     {
         $this->projectDir = $projectDir;

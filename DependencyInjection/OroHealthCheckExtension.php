@@ -22,9 +22,6 @@ class OroHealthCheckExtension extends Extension
 
     /**
      * Default driver for OroMaintenanceBundle should be force-overridden if OroHealthCheckBundle is enabled
-     *
-     * @param array $configs
-     * @param ContainerBuilder $container
      */
     private function configurationOverride(array $configs, ContainerBuilder $container)
     {

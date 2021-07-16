@@ -25,9 +25,6 @@ class OroHealthCheckBundle extends Bundle
         return $this->extension;
     }
 
-    /**
-     * @param ContainerBuilder $container
-     */
     public function build(ContainerBuilder $container)
     {
         parent::build($container);

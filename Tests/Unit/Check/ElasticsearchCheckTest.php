@@ -28,10 +28,6 @@ class ElasticsearchCheckTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider checkDataProvider
-     *
-     * @param bool $ping
-     * @param bool $isAlive
-     * @param ResultInterface $expected
      */
     public function testCheckConfigured(bool $ping, bool $isAlive, ResultInterface $expected)
     {
@@ -112,9 +108,6 @@ class ElasticsearchCheckTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    /**
-     * @param ConnectionInterface $connection
-     */
     protected function setUpClient(ConnectionInterface $connection)
     {
         /** @var Transport|\PHPUnit\Framework\MockObject\MockObject $transport */

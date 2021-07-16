@@ -25,11 +25,6 @@ class ElasticsearchCheck implements CheckInterface
     /** @var array */
     protected $engineParameters;
 
-    /**
-     * @param ClientFactory $clientFactory
-     * @param string $engineName
-     * @param array $engineParameters
-     */
     public function __construct(ClientFactory $clientFactory, string $engineName, array $engineParameters)
     {
         $this->clientFactory = $clientFactory;
@@ -56,9 +51,6 @@ class ElasticsearchCheck implements CheckInterface
         return new Skip('Elasticsearch connection is not configured. Check Skipped.');
     }
 
-    /**
-     * @return bool
-     */
     protected function isConfigured(): bool
     {
         return ElasticsearchEngine::ENGINE_NAME === $this->engineName;
