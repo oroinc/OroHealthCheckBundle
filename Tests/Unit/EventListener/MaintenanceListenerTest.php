@@ -2,23 +2,23 @@
 
 namespace Oro\Bundle\HealthCheckBundle\Tests\Unit\EventListener;
 
-use Lexik\Bundle\MaintenanceBundle\Listener\MaintenanceListener as LexikMaintenanceListener;
 use Oro\Bundle\HealthCheckBundle\EventListener\MaintenanceListener;
+use Oro\Bundle\MaintenanceBundle\EventListener\MaintenanceListener as BaseMaintenanceListener;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 
 class MaintenanceListenerTest extends \PHPUnit\Framework\TestCase
 {
-    private LexikMaintenanceListener|\PHPUnit\Framework\MockObject\MockObject $lexikListener;
+    private BaseMaintenanceListener|\PHPUnit\Framework\MockObject\MockObject $baseListener;
 
     private MaintenanceListener $listener;
 
     protected function setUp(): void
     {
-        $this->lexikListener = $this->createMock(LexikMaintenanceListener::class);
+        $this->baseListener = $this->createMock(BaseMaintenanceListener::class);
 
-        $this->listener = new MaintenanceListener($this->lexikListener, ['test_route']);
+        $this->listener = new MaintenanceListener($this->baseListener, ['test_route']);
     }
 
     public function testOnKernelRequestAllowedRoute(): void
@@ -28,7 +28,7 @@ class MaintenanceListenerTest extends \PHPUnit\Framework\TestCase
             ->method('getRequest')
             ->willReturn(new Request([], [], ['_route' => 'test_route']));
 
-        $this->lexikListener->expects(self::never())
+        $this->baseListener->expects(self::never())
             ->method('onKernelRequest');
 
         $this->listener->onKernelRequest($event);
@@ -41,7 +41,7 @@ class MaintenanceListenerTest extends \PHPUnit\Framework\TestCase
             ->method('getRequest')
             ->willReturn(new Request([], [], ['_route' => 'test_route1']));
 
-        $this->lexikListener->expects(self::once())
+        $this->baseListener->expects(self::once())
             ->method('onKernelRequest')
             ->with(self::identicalTo($event));
 
@@ -55,7 +55,7 @@ class MaintenanceListenerTest extends \PHPUnit\Framework\TestCase
             ->method('getRequest')
             ->willReturn(new Request());
 
-        $this->lexikListener->expects(self::once())
+        $this->baseListener->expects(self::once())
             ->method('onKernelRequest')
             ->with(self::identicalTo($event));
 
@@ -66,7 +66,7 @@ class MaintenanceListenerTest extends \PHPUnit\Framework\TestCase
     {
         $event = $this->createMock(ResponseEvent::class);
 
-        $this->lexikListener->expects(self::once())
+        $this->baseListener->expects(self::once())
             ->method('onKernelResponse')
             ->with(self::identicalTo($event));
 

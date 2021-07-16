@@ -5,8 +5,8 @@ namespace Oro\Bundle\HealthCheckBundle\Tests\Functional\Check;
 use Laminas\Diagnostics\Check\CheckInterface;
 use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\Success;
-use Lexik\Bundle\MaintenanceBundle\Drivers\AbstractDriver;
-use Oro\Bundle\HealthCheckBundle\Drivers\FileDriver;
+use Oro\Bundle\MaintenanceBundle\Drivers\AbstractDriver;
+use Oro\Bundle\MaintenanceBundle\Drivers\FileDriver;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -28,7 +28,7 @@ class MaintenanceModeCheckTest extends WebTestCase
         $container = static::getContainer();
 
         $this->check = $container->get('oro_health_check.check.maintenance_mode');
-        $this->driver = $container->get('lexik_maintenance.driver.factory')->getDriver();
+        $this->driver = $container->get('oro_maintenance.driver.factory')->getDriver();
     }
 
     protected function tearDown(): void

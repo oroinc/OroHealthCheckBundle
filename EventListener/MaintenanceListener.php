@@ -2,7 +2,7 @@
 
 namespace Oro\Bundle\HealthCheckBundle\EventListener;
 
-use Lexik\Bundle\MaintenanceBundle\Listener\MaintenanceListener as LexikMaintenanceListener;
+use Oro\Bundle\MaintenanceBundle\EventListener\MaintenanceListener as BaseMaintenanceListener;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 
@@ -11,11 +11,11 @@ use Symfony\Component\HttpKernel\Event\ResponseEvent;
  */
 class MaintenanceListener
 {
-    protected LexikMaintenanceListener $listenerInner;
+    protected BaseMaintenanceListener $listenerInner;
 
     protected array $allowedRoutes = [];
 
-    public function __construct(LexikMaintenanceListener $listenerInner, array $allowedRoutes)
+    public function __construct(BaseMaintenanceListener $listenerInner, array $allowedRoutes)
     {
         $this->listenerInner = $listenerInner;
         $this->allowedRoutes = $allowedRoutes;

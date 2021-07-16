@@ -2,7 +2,6 @@
 
 namespace Oro\Bundle\HealthCheckBundle\DependencyInjection;
 
-use Oro\Bundle\HealthCheckBundle\Drivers\FileDriver;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
@@ -25,9 +24,6 @@ class Configuration implements ConfigurationInterface
                 ->arrayNode('maintenance_driver')
                 ->addDefaultsIfNotSet()
                     ->children()
-                        ->scalarNode('class')
-                            ->defaultValue(FileDriver::class)
-                        ->end()
                         ->arrayNode('options')
                         ->addDefaultsIfNotSet()
                             ->children()

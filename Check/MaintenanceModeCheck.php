@@ -6,20 +6,16 @@ use Laminas\Diagnostics\Check\CheckInterface;
 use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\ResultInterface;
 use Laminas\Diagnostics\Result\Success;
-use Lexik\Bundle\MaintenanceBundle\Drivers\DriverFactory;
-use Oro\Bundle\HealthCheckBundle\Drivers\FileDriver;
+use Oro\Bundle\MaintenanceBundle\Drivers\DriverFactory;
+use Oro\Bundle\MaintenanceBundle\Drivers\FileDriver;
 
 /**
  * Class for check Maintenance Mode
  */
 class MaintenanceModeCheck implements CheckInterface
 {
-    /** @var DriverFactory */
-    protected $driverFactory;
+    protected DriverFactory $driverFactory;
 
-    /**
-     * @param DriverFactory $factory
-     */
     public function __construct(DriverFactory $factory)
     {
         $this->driverFactory = $factory;

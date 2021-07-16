@@ -4,7 +4,6 @@ declare(strict_types=1);
 namespace Oro\Bundle\HealthCheckBundle\Tests\Unit\DependencyInjection;
 
 use Oro\Bundle\HealthCheckBundle\DependencyInjection\OroHealthCheckExtension;
-use Oro\Bundle\HealthCheckBundle\Drivers\FileDriver;
 use Oro\Bundle\TestFrameworkBundle\Test\DependencyInjection\ExtensionTestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
@@ -30,16 +29,15 @@ class OroHealthCheckExtensionTest extends ExtensionTestCase
                 'oro_health_check.check.maintenance_mode',
             ]
         );
-        $this->assertParametersLoaded(['lexik_maintenance.driver']);
+        $this->assertParametersLoaded(['oro_maintenance.driver']);
         static::assertEquals(
             [
-                'class' => FileDriver::class,
                 'options' => [
                     'ttl' => 600,
                     'file_path' => 'test/file/path'
                 ]
             ],
-            $this->actualParameters['lexik_maintenance.driver']
+            $this->actualParameters['oro_maintenance.driver']
         );
     }
 
@@ -48,7 +46,7 @@ class OroHealthCheckExtensionTest extends ExtensionTestCase
         $containerBuilder = parent::getContainerMock();
         $containerBuilder
             ->method('getParameter')
-            ->with('lexik_maintenance.driver')
+            ->with('oro_maintenance.driver')
             ->willReturn(
                 [
                     'options' => [

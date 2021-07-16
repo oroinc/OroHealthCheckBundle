@@ -5,10 +5,10 @@ namespace Oro\Bundle\HealthCheckBundle\Tests\Unit\Check;
 use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\ResultInterface;
 use Laminas\Diagnostics\Result\Success;
-use Lexik\Bundle\MaintenanceBundle\Drivers\AbstractDriver;
-use Lexik\Bundle\MaintenanceBundle\Drivers\DriverFactory;
 use Oro\Bundle\HealthCheckBundle\Check\MaintenanceModeCheck;
-use Oro\Bundle\HealthCheckBundle\Drivers\FileDriver;
+use Oro\Bundle\MaintenanceBundle\Drivers\AbstractDriver;
+use Oro\Bundle\MaintenanceBundle\Drivers\DriverFactory;
+use Oro\Bundle\MaintenanceBundle\Drivers\FileDriver;
 
 class MaintenanceModeCheckTest extends \PHPUnit\Framework\TestCase
 {

@@ -6,7 +6,7 @@ parameters:
 services:
     oro_health_check.listener.maintenance:
         class: Oro\Bundle\HealthCheckBundle\EventListener\MaintenanceListener
-        decorates: 'lexik_maintenance.listener'
+        decorates: 'oro_maintenance.maintenance_listener'
         arguments:
             - '@oro_health_check.listener.maintenance.inner'
             -
@@ -94,7 +94,7 @@ services:
     oro_health_check.check.maintenance_mode:
         class: Oro\Bundle\HealthCheckBundle\Check\MaintenanceModeCheck
         arguments:
-            - '@lexik_maintenance.driver.factory'
+            - '@oro_maintenance.driver.factory'
         tags:
             - { name: liip_monitor.check, alias: maintenance_mode }
 

@@ -10,6 +10,6 @@ security:
     access_control:
         - { path: /healthcheck/http_status_check(s$|/.*), roles: IS_AUTHENTICATED_ANONYMOUSLY }
 
-lexik_maintenance:
+oro_maintenance:
     authorized:
         route: 'liip_monitor_run_all_checks_http_status'

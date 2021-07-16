@@ -21,18 +21,18 @@ class OroHealthCheckExtension extends Extension
     }
 
     /**
-     * Default driver for LexikMaintenanceBundle should be force-overridden if OroHealthCheckBundle is enabled
+     * Default driver for OroMaintenanceBundle should be force-overridden if OroHealthCheckBundle is enabled
      *
      * @param array $configs
      * @param ContainerBuilder $container
      */
     private function configurationOverride(array $configs, ContainerBuilder $container)
     {
-        $originalConfig = $container->getParameter('lexik_maintenance.driver');
+        $originalConfig = $container->getParameter('oro_maintenance.driver');
 
         $config = $this->processConfiguration(new Configuration(), $configs)['maintenance_driver'];
         $config['options'] = array_merge($originalConfig['options'], $config['options']);
 
-        $container->setParameter('lexik_maintenance.driver', $config);
+        $container->setParameter('oro_maintenance.driver', $config);
     }
 }
