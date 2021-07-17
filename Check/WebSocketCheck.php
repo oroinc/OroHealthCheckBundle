@@ -23,11 +23,6 @@ class WebSocketCheck implements CheckInterface
     /** @var bool */
     protected $strict;
 
-    /**
-     * @param ConnectionChecker $checker
-     * @param string $type
-     * @param bool $strict
-     */
     public function __construct(ConnectionChecker $checker, string $type, bool $strict = true)
     {
         $this->checker = $checker;

@@ -18,10 +18,6 @@ class RedisCheck implements CheckInterface
     /** @var string */
     protected $type;
 
-    /**
-     * @param PredisClient $client
-     * @param string $type
-     */
     public function __construct(PredisClient $client, string $type)
     {
         $this->client = $client;

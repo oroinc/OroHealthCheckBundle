@@ -17,19 +17,12 @@ class MaintenanceListener
     /** @var array */
     protected $allowedRoutes = [];
 
-    /**
-     * @param LexikMaintenanceListener $listenerInner
-     * @param array $allowedRoutes
-     */
     public function __construct(LexikMaintenanceListener $listenerInner, array $allowedRoutes)
     {
         $this->listenerInner = $listenerInner;
         $this->allowedRoutes = $allowedRoutes;
     }
 
-    /**
-     * @param GetResponseEvent $event
-     */
     public function onKernelRequest(GetResponseEvent $event)
     {
         $request = $event->getRequest();
@@ -38,9 +31,6 @@ class MaintenanceListener
         }
     }
 
-    /**
-     * @param FilterResponseEvent $event
-     */
     public function onKernelResponse(FilterResponseEvent $event)
     {
         $this->listenerInner->onKernelResponse($event);

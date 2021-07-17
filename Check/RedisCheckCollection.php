@@ -12,9 +12,6 @@ class RedisCheckCollection implements CheckCollectionInterface
     /** @var array */
     protected $clients;
 
-    /**
-     * @param array $clients
-     */
     public function __construct(array $clients)
     {
         $this->clients = array_filter($clients);
@@ -33,10 +30,6 @@ class RedisCheckCollection implements CheckCollectionInterface
         return $checks;
     }
 
-    /**
-     * @param string $label
-     * @return string
-     */
     private function getCheckId(string $label): string
     {
         return strtolower(str_replace(' ', '_', $label));

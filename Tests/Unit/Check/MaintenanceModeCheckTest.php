@@ -27,9 +27,6 @@ class MaintenanceModeCheckTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider checkWithNoTtlDriverProvider
-     *
-     * @param bool $decide
-     * @param ResultInterface $expected
      */
     public function testCheckWithNoTtlDriver(bool $decide, ResultInterface $expected)
     {
@@ -65,10 +62,6 @@ class MaintenanceModeCheckTest extends \PHPUnit\Framework\TestCase
 
     /**
      * @dataProvider checkWithTtlDriverProvider
-     *
-     * @param bool $decide
-     * @param bool $isExpired
-     * @param ResultInterface $expected
      */
     public function testCheckWithTtlDriver(bool $decide, bool $isExpired, ResultInterface $expected)
     {

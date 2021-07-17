@@ -17,9 +17,6 @@ class MaintenanceModeCheck implements CheckInterface
     /** @var DriverFactory */
     protected $driverFactory;
 
-    /**
-     * @param DriverFactory $factory
-     */
     public function __construct(DriverFactory $factory)
     {
         $this->driverFactory = $factory;

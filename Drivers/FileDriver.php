@@ -26,8 +26,6 @@ class FileDriver extends BaseFileDriver implements DriverTtlInterface
 
     /**
      * Return true if file exists even ttl was expired so maintenance mode must still be on
-     *
-     * @return bool
      */
     public function isExists(): bool
     {
