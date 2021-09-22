@@ -5,8 +5,10 @@ namespace Oro\Bundle\HealthCheckBundle\Tests\Unit\EventListener;
 use Oro\Bundle\HealthCheckBundle\EventListener\MaintenanceListener;
 use Oro\Bundle\MaintenanceBundle\EventListener\MaintenanceListener as BaseMaintenanceListener;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
+use Symfony\Component\HttpKernel\HttpKernelInterface;
 
 class MaintenanceListenerTest extends \PHPUnit\Framework\TestCase
 {
@@ -64,7 +66,10 @@ class MaintenanceListenerTest extends \PHPUnit\Framework\TestCase
 
     public function testOnKernelResponse(): void
     {
-        $event = $this->createMock(ResponseEvent::class);
+        $response = new Response('foo');
+
+        $kernel = $this->createMock(HttpKernelInterface::class);
+        $event = new ResponseEvent($kernel, new Request(), HttpKernelInterface::MAIN_REQUEST, $response);
 
         $this->baseListener->expects(self::once())
             ->method('onKernelResponse')
