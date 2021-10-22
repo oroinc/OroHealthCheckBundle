@@ -33,7 +33,6 @@ class OroHealthCheckExtensionTest extends ExtensionTestCase
         static::assertEquals(
             [
                 'options' => [
-                    'ttl' => 600,
                     'file_path' => 'test/file/path'
                 ]
             ],

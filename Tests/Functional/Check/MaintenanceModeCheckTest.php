@@ -3,20 +3,16 @@
 namespace Oro\Bundle\HealthCheckBundle\Tests\Functional\Check;
 
 use Laminas\Diagnostics\Check\CheckInterface;
-use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\Success;
 use Oro\Bundle\MaintenanceBundle\Drivers\AbstractDriver;
-use Oro\Bundle\MaintenanceBundle\Drivers\FileDriver;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
 class MaintenanceModeCheckTest extends WebTestCase
 {
-    /** @var CheckInterface */
-    private $check;
+    private CheckInterface $check;
 
-    /** @var AbstractDriver */
-    private $driver;
+    private AbstractDriver $driver;
 
     /**
      * {@inheritdoc}
@@ -36,40 +32,20 @@ class MaintenanceModeCheckTest extends WebTestCase
         $this->driver->unlock();
     }
 
-    public function testExecuteApiCall()
+    public function testExecuteApiCall(): void
     {
         $this->client->request(
             'GET',
             $this->getUrl('liip_monitor_run_single_check_http_status', ['checkId' => 'maintenance_mode'])
         );
 
-        $this->assertResponseStatusCodeEquals($this->client->getResponse(), Response::HTTP_OK);
+        self::assertResponseStatusCodeEquals($this->client->getResponse(), Response::HTTP_OK);
     }
 
-    public function testExecuteApiCallInMaintenanceMode()
+    public function testExecuteApiCallInMaintenanceMode(): void
     {
         $this->driver->lock();
 
-        $this->client->request(
-            'GET',
-            $this->getUrl('liip_monitor_run_single_check_http_status', ['checkId' => 'maintenance_mode'])
-        );
-
-        $this->driver->unlock();
-
-        $this->assertResponseStatusCodeEquals($this->client->getResponse(), Response::HTTP_OK);
-    }
-
-    public function testExecuteApiCallInExpiredMaintenanceMode()
-    {
-        $expectedResponseCode = Response::HTTP_OK;
-        if ($this->driver instanceof FileDriver) {
-            $this->driver->setTtl(1);
-            $expectedResponseCode = Response::HTTP_BAD_GATEWAY;
-        }
-
-        $this->driver->lock();
-        sleep(2);
         $this->client->request(
             'GET',
             $this->getUrl('liip_monitor_run_single_check_http_status', ['checkId' => 'maintenance_mode'])
@@ -77,36 +53,18 @@ class MaintenanceModeCheckTest extends WebTestCase
 
         $this->driver->unlock();
 
-        $this->assertResponseStatusCodeEquals($this->client->getResponse(), $expectedResponseCode);
+        self::assertResponseStatusCodeEquals($this->client->getResponse(), Response::HTTP_OK);
     }
 
-    public function testServiceCheck()
+    public function testServiceCheck(): void
     {
-        $this->assertEquals(new Success('Off'), $this->check->check());
+        self::assertEquals(new Success('Off'), $this->check->check());
     }
 
-    public function testServiceCheckInMaintenanceMode()
+    public function testServiceCheckInMaintenanceMode(): void
     {
         $this->driver->lock();
-        $this->assertEquals(new Success('On'), $this->check->check());
+        self::assertEquals(new Success('On'), $this->check->check());
         $this->driver->unlock();
-    }
-
-    public function testServiceCheckInExpiredMaintenanceMode()
-    {
-        $expectedReturnInstance = new Success('On');
-        if ($this->driver instanceof FileDriver) {
-            $this->driver->setTtl(1);
-            $expectedReturnInstance = new Failure('Expired');
-        }
-
-        $this->driver->lock();
-        sleep(2);
-
-        $result = $this->check->check();
-
-        $this->driver->unlock();
-
-        $this->assertEquals($expectedReturnInstance, $result);
     }
 }

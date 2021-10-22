@@ -171,9 +171,7 @@ If all health checks were successful, the `/healthcheck/http_status_checks` requ
 least one check has failed, the 502 response code is returned. The `/healthcheck/http_status_check/<some_check_id>` path
 is used for an individual check, with the same response codes.
 
-OroHealthCheckBundle configures the maintenance mode with a specific duration and checks whether it is expired.
 - The `Oro\Bundle\MaintenanceBundle\Drivers\FileDriver` class is used as maintenance driver.
-- Optionally, you can set a custom `ttl` in the yml configuration or as a CLI command argument (the default time is 600 sec).
 
 The following example illustrates the configuration which can be used in _config.yml_ to change the behavior of the maintenance mode: 
 ```yaml
@@ -181,7 +179,6 @@ oro_health_check:
     maintenance_driver:
         options:
             file_path: %kernel.project_dir%/var/cache/maintenance_lock
-            ttl: 600
 ```
 
 ## Build your own check
