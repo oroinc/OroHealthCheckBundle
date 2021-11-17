@@ -1,0 +1,6 @@
+oro:
+    healthcheck:
+        check:
+            mail_transport_check:
+                no_transport_connection_checkers.error: No available connection checkers found for default transport.
+

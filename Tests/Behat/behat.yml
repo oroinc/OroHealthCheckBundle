@@ -1,0 +1,13 @@
+oro_behat_extension:
+    suites:
+        OroHealthCheckBundle:
+            contexts:
+                - Oro\Bundle\TestFrameworkBundle\Tests\Behat\Context\OroMainContext
+                - Oro\Bundle\DataGridBundle\Tests\Behat\Context\GridContext
+            paths:
+                - '@OroHealthCheckBundle/Tests/Behat/Features'
+
+    elements:
+        Health Check Status Table:
+            class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Table
+            selector: 'table.test-result'

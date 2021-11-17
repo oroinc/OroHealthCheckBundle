@@ -4,30 +4,48 @@ namespace Oro\Bundle\HealthCheckBundle\Check;
 
 use Laminas\Diagnostics\Check\CheckInterface;
 use Laminas\Diagnostics\Result\Failure;
-use Laminas\Diagnostics\Result\ResultInterface;
 use Laminas\Diagnostics\Result\Success;
+use Laminas\Diagnostics\Result\Warning;
+use Oro\Bundle\EmailBundle\Mailer\Checker\ConnectionCheckerInterface;
+use Symfony\Component\Mailer\Transport\Dsn;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Class for check mail transport configuration
  */
 class MailTransportCheck implements CheckInterface
 {
-    /** @var \Swift_Mailer */
-    protected $mailer;
+    private string $transportDsn;
 
-    public function __construct(\Swift_Mailer $mailer)
-    {
-        $this->mailer = $mailer;
+    private ConnectionCheckerInterface $connectionChecker;
+
+    private TranslatorInterface $translator;
+
+    public function __construct(
+        string $transportDsn,
+        ConnectionCheckerInterface $connectionChecker,
+        TranslatorInterface $translator
+    ) {
+        $this->transportDsn = $transportDsn;
+        $this->connectionChecker = $connectionChecker;
+        $this->translator = $translator;
     }
 
-    /**
-     * @return Failure|Success
-     */
-    public function check(): ResultInterface
+    public function check(): Failure|Success|Warning
     {
-        $this->mailer->getTransport()->start();
+        $dsn = Dsn::fromString($this->transportDsn);
 
-        return new Success();
+        if (!$this->connectionChecker->supports($dsn)) {
+            return new Warning(
+                $this->translator->trans(
+                    'oro.healthcheck.check.mail_transport_check.no_transport_connection_checkers.error'
+                )
+            );
+        }
+
+        return $this->connectionChecker->checkConnection($dsn, $connectionError)
+            ? new Success()
+            : new Failure($connectionError);
     }
 
     /**

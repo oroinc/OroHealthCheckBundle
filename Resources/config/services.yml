@@ -49,7 +49,9 @@ services:
     oro_health_check.check.mail_transport:
         class: Oro\Bundle\HealthCheckBundle\Check\MailTransportCheck
         arguments:
-            - '@oro_email.direct_mailer'
+            - !abstract '$transportDsn defined in MailTransportCheckPass'
+            - '@oro_email.mailer.checker.connection_checkers'
+            - '@translator'
         tags:
             - { name: liip_monitor.check, alias: mail_transport }
 
