@@ -21,7 +21,7 @@ class MaintenanceModeCheckTest extends WebTestCase
     {
         $this->initClient([], $this->generateBasicAuthHeader());
 
-        $container = static::getContainer();
+        $container = self::getContainer();
 
         $this->check = $container->get('oro_health_check.check.maintenance_mode');
         $this->driver = $container->get('oro_maintenance.driver.factory')->getDriver();

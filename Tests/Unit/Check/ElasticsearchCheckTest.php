@@ -16,10 +16,10 @@ use Oro\Bundle\HealthCheckBundle\Check\ElasticsearchCheck;
 
 class ElasticsearchCheckTest extends \PHPUnit\Framework\TestCase
 {
-    const ENGINE_PARAMETERS = ['client' => ['name' => 'test_client']];
+    private const ENGINE_PARAMETERS = ['client' => ['name' => 'test_client']];
 
     /** @var ClientFactory|\PHPUnit\Framework\MockObject\MockObject */
-    protected $clientFactory;
+    private $clientFactory;
 
     protected function setUp(): void
     {
@@ -31,7 +31,6 @@ class ElasticsearchCheckTest extends \PHPUnit\Framework\TestCase
      */
     public function testCheckConfigured(bool $ping, bool $isAlive, ResultInterface $expected)
     {
-        /** @var Connection|\PHPUnit\Framework\MockObject\MockObject $connection */
         $connection = $this->createMock(Connection::class);
         $connection->expects($this->any())
             ->method('ping')
@@ -45,10 +44,7 @@ class ElasticsearchCheckTest extends \PHPUnit\Framework\TestCase
         $this->assertEquals($expected, $this->getCheck(ElasticSearchEngine::ENGINE_NAME)->check());
     }
 
-    /**
-     * @return array
-     */
-    public function checkDataProvider()
+    public function checkDataProvider(): array
     {
         return [
             [
@@ -76,7 +72,6 @@ class ElasticsearchCheckTest extends \PHPUnit\Framework\TestCase
 
     public function testCheckConfiguredWithUnsupportedConnection()
     {
-        /** @var ConnectionInterface|\PHPUnit\Framework\MockObject\MockObject $connection */
         $connection = $this->createMock(ConnectionInterface::class);
         $connection->expects($this->never())
             ->method('isAlive');
@@ -108,9 +103,8 @@ class ElasticsearchCheckTest extends \PHPUnit\Framework\TestCase
         );
     }
 
-    protected function setUpClient(ConnectionInterface $connection)
+    private function setUpClient(ConnectionInterface $connection): void
     {
-        /** @var Transport|\PHPUnit\Framework\MockObject\MockObject $transport */
         $transport = $this->createMock(Transport::class);
         $transport->expects($this->once())
             ->method('getConnection')
@@ -130,11 +124,7 @@ class ElasticsearchCheckTest extends \PHPUnit\Framework\TestCase
             ->willReturn($client);
     }
 
-    /**
-     * @param string $engineName
-     * @return ElasticsearchCheck
-     */
-    protected function getCheck($engineName)
+    private function getCheck(string $engineName): ElasticsearchCheck
     {
         return new ElasticsearchCheck($this->clientFactory, $engineName, self::ENGINE_PARAMETERS);
     }

@@ -9,10 +9,10 @@ use Oro\Bundle\HealthCheckBundle\Tests\Unit\Stub\PredisClient;
 class RedisCheckTest extends \PHPUnit\Framework\TestCase
 {
     /** @var PredisClient|\PHPUnit\Framework\MockObject\MockObject */
-    protected $client;
+    private $client;
 
     /** @var RedisCheck */
-    protected $check;
+    private $check;
 
     protected function setUp(): void
     {

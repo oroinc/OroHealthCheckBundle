@@ -18,7 +18,7 @@ class FileStorageCheckTest extends WebTestCase
 
     public function testExecuteApiCall()
     {
-        $fileStorageChecks = static::getContainer()->get('oro_health_check.check.file_storage')->getChecks();
+        $fileStorageChecks = self::getContainer()->get('oro_health_check.check.file_storage')->getChecks();
         foreach ($fileStorageChecks as $key => $check) {
             $this->client->request(
                 'GET',
@@ -31,7 +31,7 @@ class FileStorageCheckTest extends WebTestCase
 
     public function testServiceCheck()
     {
-        $fileStorageChecks = static::getContainer()->get('oro_health_check.check.file_storage')->getChecks();
+        $fileStorageChecks = self::getContainer()->get('oro_health_check.check.file_storage')->getChecks();
         $expectedKeys = [
             'fs_var_cache_prod',
             'fs_var_logs',

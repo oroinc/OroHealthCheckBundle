@@ -28,7 +28,7 @@ class DoctrineDbalCheckTest extends WebTestCase
 
     public function testServiceCheck()
     {
-        $doctrineDbalCheck = static::getContainer()->get('oro_health_check.check.doctrine_dbal');
+        $doctrineDbalCheck = self::getContainer()->get('oro_health_check.check.doctrine_dbal');
 
         $this->assertInstanceOf(Success::class, $doctrineDbalCheck->check());
     }

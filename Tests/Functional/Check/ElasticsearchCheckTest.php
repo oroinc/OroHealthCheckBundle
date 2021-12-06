@@ -33,7 +33,7 @@ class ElasticsearchCheckTest extends WebTestCase
 
     public function testServiceCheck()
     {
-        $elasticSearchCheck = static::getContainer()->get('oro_health_check.check.elasticsearch');
+        $elasticSearchCheck = self::getContainer()->get('oro_health_check.check.elasticsearch');
 
         $this->assertInstanceOf(Success::class, $elasticSearchCheck->check());
     }
@@ -43,6 +43,6 @@ class ElasticsearchCheckTest extends WebTestCase
      */
     private function isSupported()
     {
-        return ElasticsearchEngine::ENGINE_NAME === static::getContainer()->getParameter('oro_search.engine');
+        return ElasticsearchEngine::ENGINE_NAME === self::getContainer()->getParameter('oro_search.engine');
     }
 }

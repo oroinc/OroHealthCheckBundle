@@ -23,7 +23,7 @@ class RedisCheckTest extends WebTestCase
             'redis_session_storage' => 'snc_redis.session',
             'redis_doctrine_cache' => 'snc_redis.doctrine'
         ];
-        $container = static::getContainer();
+        $container = self::getContainer();
 
         foreach ($map as $serviceKey => $serviceName) {
             if (!$container->has($serviceName)) {
@@ -40,7 +40,7 @@ class RedisCheckTest extends WebTestCase
 
     public function testServiceCheck()
     {
-        $redisChecks = static::getContainer()->get('oro_health_check.check.redis')->getChecks();
+        $redisChecks = self::getContainer()->get('oro_health_check.check.redis')->getChecks();
 
         foreach ($redisChecks as $redisCheck) {
             $this->assertInstanceOf(Success::class, $redisCheck->check());

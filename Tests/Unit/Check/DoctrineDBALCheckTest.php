@@ -8,7 +8,7 @@ use Oro\Bundle\HealthCheckBundle\Check\DoctrineDBALCheck;
 class DoctrineDBALCheckTest extends \PHPUnit\Framework\TestCase
 {
     /** @var DoctrineDbalCheck */
-    protected $check;
+    private $check;
 
     protected function setUp(): void
     {

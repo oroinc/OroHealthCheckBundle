@@ -38,10 +38,10 @@ class WebSocketCheckTest extends WebTestCase
 
     public function testServiceCheck()
     {
-        $mailTransportCheck = static::getContainer()->get('oro_health_check.check.websocket_frontend');
+        $mailTransportCheck = self::getContainer()->get('oro_health_check.check.websocket_frontend');
         $this->assertInstanceOf(Skip::class, $mailTransportCheck->check());
 
-        $mailTransportCheck = static::getContainer()->get('oro_health_check.check.websocket_backend');
+        $mailTransportCheck = self::getContainer()->get('oro_health_check.check.websocket_backend');
         $this->assertInstanceOf(Failure::class, $mailTransportCheck->check());
     }
 }

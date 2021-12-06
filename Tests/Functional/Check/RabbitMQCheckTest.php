@@ -9,9 +9,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class RabbitMQCheckTest extends WebTestCase
 {
-    /**
-     * {@inheritdoc}
-     */
     protected function setUp(): void
     {
         $this->initClient([], $this->generateBasicAuthHeader());
@@ -29,17 +26,14 @@ class RabbitMQCheckTest extends WebTestCase
 
     public function testServiceCheck()
     {
-        $rabbitMqCheck = static::getContainer()->get('oro_health_check.check.rabbitmq');
+        $rabbitMqCheck = self::getContainer()->get('oro_health_check.check.rabbitmq');
 
         $this->assertInstanceOf($this->getExpectedResult(), $rabbitMqCheck->check());
     }
 
-    /**
-     * @return bool
-     */
-    protected function getExpectedResult()
+    private function getExpectedResult(): string
     {
-        $c = static::getContainer()->getParameter('message_queue_transport_config');
+        $c = self::getContainer()->getParameter('message_queue_transport_config');
 
         $result = Skip::class;
         if (is_array($c) && isset($c['host'], $c['port'], $c['user'], $c['password'], $c['vhost'])) {

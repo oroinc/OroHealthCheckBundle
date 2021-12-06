@@ -9,7 +9,7 @@ use Predis\Client;
 class RedisCheckCollectionTest extends \PHPUnit\Framework\TestCase
 {
     /** @var RedisCheckCollection */
-    protected $check;
+    private $check;
 
     protected function setUp(): void
     {
