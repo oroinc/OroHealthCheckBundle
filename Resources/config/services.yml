@@ -8,7 +8,7 @@ services:
         class: Oro\Bundle\HealthCheckBundle\EventListener\MaintenanceListener
         decorates: 'oro_maintenance.maintenance_listener'
         arguments:
-            - '@oro_health_check.listener.maintenance.inner'
+            - '@.inner'
             -
                 - 'liip_monitor_health_interface'
                 - 'liip_monitor_list_checks'
