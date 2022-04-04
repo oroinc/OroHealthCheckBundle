@@ -62,7 +62,6 @@ services:
 
     oro_health_check.websocket_client.frontend:
         class: Oro\Bundle\SyncBundle\Client\WebsocketClient
-        public: false
         arguments:
             - '@oro_sync.client.wamp.factory'
             - '@oro_health_check.client_frontend_attributes'
@@ -70,9 +69,13 @@ services:
 
     oro_health_check.client.connection_checker.frontend:
         class: Oro\Bundle\SyncBundle\Client\ConnectionChecker
-        public: false
         arguments:
             - '@oro_health_check.websocket_client.frontend'
+        calls:
+            - [setLogger, ['@logger']]
+            - [setApplicationInstalled, ['%installed%']]
+        tags:
+            - { name: monolog.logger, channel: oro_websocket }
 
     oro_health_check.check.websocket_backend:
         class: Oro\Bundle\HealthCheckBundle\Check\WebSocketCheck
