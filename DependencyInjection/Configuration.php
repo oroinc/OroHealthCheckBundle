@@ -5,9 +5,6 @@ namespace Oro\Bundle\HealthCheckBundle\DependencyInjection;
 use Symfony\Component\Config\Definition\Builder\TreeBuilder;
 use Symfony\Component\Config\Definition\ConfigurationInterface;
 
-/**
- * This is the class that validates and merges configuration for oro_health_check node
- */
 class Configuration implements ConfigurationInterface
 {
     /**
