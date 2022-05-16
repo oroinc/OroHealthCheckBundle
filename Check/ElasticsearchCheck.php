@@ -2,7 +2,6 @@
 
 namespace Oro\Bundle\HealthCheckBundle\Check;
 
-use Elasticsearch\Connections\Connection;
 use Laminas\Diagnostics\Check\CheckInterface;
 use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\ResultInterface;
@@ -40,7 +39,7 @@ class ElasticsearchCheck implements CheckInterface
         if ($this->isConfigured()) {
             $client = $this->clientFactory->create($this->engineParameters['client']);
 
-            $connection = $client->transport->getConnection();
+            $connection = $client->getTransport()->getConnection();
             if (!$connection instanceof Connection) {
                 return new Skip('Elasticsearch connection does not support ping. Check Skipped.');
             }
