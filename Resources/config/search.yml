@@ -3,6 +3,7 @@ services:
         class: Oro\Bundle\HealthCheckBundle\Check\ElasticsearchCheck
         arguments:
             - '@oro_elasticsearch.client.factory'
+            - '@oro_elasticsearch.node.pool.resurrect'
             - "@=service('oro_search.engine.parameters').getEngineName()"
             - "@=service('oro_elasticsearch.engine.parameters_provider').getEngineParameters()"
         tags:

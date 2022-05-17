@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\HealthCheckBundle\Check;
 
+use Elastic\Transport\NodePool\Resurrect\ResurrectInterface;
 use Laminas\Diagnostics\Check\CheckInterface;
 use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\ResultInterface;
@@ -15,20 +16,12 @@ use Oro\Bundle\ElasticSearchBundle\Engine\ElasticSearch as ElasticsearchEngine;
  */
 class ElasticsearchCheck implements CheckInterface
 {
-    /** @var ClientFactory */
-    protected $clientFactory;
-
-    /** @var string */
-    protected $engineName;
-
-    /** @var array */
-    protected $engineParameters;
-
-    public function __construct(ClientFactory $clientFactory, string $engineName, array $engineParameters)
-    {
-        $this->clientFactory = $clientFactory;
-        $this->engineName = $engineName;
-        $this->engineParameters = $engineParameters;
+    public function __construct(
+        protected ClientFactory $clientFactory,
+        protected ResurrectInterface $resurrect,
+        protected string $engineName,
+        protected array $engineParameters
+    ) {
     }
 
     /**
@@ -38,13 +31,9 @@ class ElasticsearchCheck implements CheckInterface
     {
         if ($this->isConfigured()) {
             $client = $this->clientFactory->create($this->engineParameters['client']);
+            $node = $client->getTransport()->getNodePool()->nextNode();
 
-            $connection = $client->getTransport()->getConnection();
-            if (!$connection instanceof Connection) {
-                return new Skip('Elasticsearch connection does not support ping. Check Skipped.');
-            }
-
-            return $connection->ping() && $connection->isAlive() ? new Success() : new Failure();
+            return $this->resurrect->ping($node) && $node->isAlive() ? new Success() : new Failure();
         }
 
         return new Skip('Elasticsearch connection is not configured. Check Skipped.');
