@@ -2,10 +2,11 @@
 
 namespace Oro\Bundle\HealthCheckBundle\Tests\Unit\Check;
 
-use Elasticsearch\Client;
-use Elasticsearch\Connections\Connection;
-use Elasticsearch\Connections\ConnectionInterface;
-use Elasticsearch\Transport;
+use Elastic\Elasticsearch\Client;
+use Elastic\Transport\NodePool\Node;
+use Elastic\Transport\NodePool\NodePoolInterface;
+use Elastic\Transport\NodePool\Resurrect\ResurrectInterface;
+use Elastic\Transport\Transport;
 use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\ResultInterface;
 use Laminas\Diagnostics\Result\Skip;
@@ -13,6 +14,8 @@ use Laminas\Diagnostics\Result\Success;
 use Oro\Bundle\ElasticSearchBundle\Client\ClientFactory;
 use Oro\Bundle\ElasticSearchBundle\Engine\ElasticSearch as ElasticsearchEngine;
 use Oro\Bundle\HealthCheckBundle\Check\ElasticsearchCheck;
+use Psr\Http\Client\ClientInterface;
+use Psr\Log\LoggerInterface;
 
 class ElasticsearchCheckTest extends \PHPUnit\Framework\TestCase
 {
@@ -31,17 +34,17 @@ class ElasticsearchCheckTest extends \PHPUnit\Framework\TestCase
      */
     public function testCheckConfigured(bool $ping, bool $isAlive, ResultInterface $expected)
     {
-        $connection = $this->createMock(Connection::class);
-        $connection->expects($this->any())
+        $resurrect = $this->createMock(ResurrectInterface::class);
+        $resurrect->expects($this->any())
             ->method('ping')
             ->willReturn($ping);
-        $connection->expects($this->any())
-            ->method('isAlive')
-            ->willReturn($isAlive);
 
-        $this->setUpClient($connection);
+        $node = new Node('http://localhost');
+        $node->markAlive($isAlive);
 
-        $this->assertEquals($expected, $this->getCheck(ElasticSearchEngine::ENGINE_NAME)->check());
+        $this->setUpClient($node);
+
+        $this->assertEquals($expected, $this->getCheck($resurrect, ElasticSearchEngine::ENGINE_NAME)->check());
     }
 
     public function checkDataProvider(): array
@@ -70,20 +73,6 @@ class ElasticsearchCheckTest extends \PHPUnit\Framework\TestCase
         ];
     }
 
-    public function testCheckConfiguredWithUnsupportedConnection()
-    {
-        $connection = $this->createMock(ConnectionInterface::class);
-        $connection->expects($this->never())
-            ->method('isAlive');
-
-        $this->setUpClient($connection);
-
-        $this->assertEquals(
-            new Skip('Elasticsearch connection does not support ping. Check Skipped.'),
-            $this->getCheck(ElasticSearchEngine::ENGINE_NAME)->check()
-        );
-    }
-
     public function testCheckNotConfigured()
     {
         $this->clientFactory->expects($this->never())
@@ -91,7 +80,7 @@ class ElasticsearchCheckTest extends \PHPUnit\Framework\TestCase
 
         $this->assertEquals(
             new Skip('Elasticsearch connection is not configured. Check Skipped.'),
-            $this->getCheck('orm')->check()
+            $this->getCheck($this->createMock(ResurrectInterface::class), 'orm')->check()
         );
     }
 
@@ -99,23 +88,26 @@ class ElasticsearchCheckTest extends \PHPUnit\Framework\TestCase
     {
         $this->assertEquals(
             'Check if Elasticsearch is available in case it is configured',
-            $this->getCheck('')->getLabel()
+            $this->getCheck($this->createMock(ResurrectInterface::class), '')->getLabel()
         );
     }
 
-    private function setUpClient(ConnectionInterface $connection): void
+    private function setUpClient(Node $node): void
     {
-        $transport = $this->createMock(Transport::class);
-        $transport->expects($this->once())
-            ->method('getConnection')
-            ->willReturn($connection);
+        $nodePool = $this->createMock(NodePoolInterface::class);
+        $nodePool->expects($this->any())
+            ->method('nextNode')
+            ->willReturn($node);
+
+        $transport = new Transport(
+            $this->createMock(ClientInterface::class),
+            $nodePool,
+            $this->createMock(LoggerInterface::class)
+        );
 
         $client = new Client(
             $transport,
-            function ($name) {
-                return $name;
-            },
-            []
+            $this->createMock(LoggerInterface::class)
         );
 
         $this->clientFactory->expects($this->once())
@@ -124,8 +116,8 @@ class ElasticsearchCheckTest extends \PHPUnit\Framework\TestCase
             ->willReturn($client);
     }
 
-    private function getCheck(string $engineName): ElasticsearchCheck
+    private function getCheck(ResurrectInterface $resurrect, string $engineName): ElasticsearchCheck
     {
-        return new ElasticsearchCheck($this->clientFactory, $engineName, self::ENGINE_PARAMETERS);
+        return new ElasticsearchCheck($this->clientFactory, $resurrect, $engineName, self::ENGINE_PARAMETERS);
     }
 }
