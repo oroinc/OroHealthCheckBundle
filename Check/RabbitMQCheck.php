@@ -6,6 +6,7 @@ use Laminas\Diagnostics\Check\CheckInterface;
 use Laminas\Diagnostics\Result\ResultInterface;
 use Laminas\Diagnostics\Result\Skip;
 use Laminas\Diagnostics\Result\Success;
+use Oro\Component\AmqpMessageQueue\Provider\TransportConnectionConfigProvider;
 use Oro\Component\AmqpMessageQueue\Transport\Amqp\AmqpConnection;
 
 /**
@@ -13,12 +14,11 @@ use Oro\Component\AmqpMessageQueue\Transport\Amqp\AmqpConnection;
  */
 class RabbitMQCheck implements CheckInterface
 {
-    /** @var array|null */
-    protected $config;
+    protected ?TransportConnectionConfigProvider $configProvider;
 
-    public function __construct(array $config = null)
+    public function __construct(TransportConnectionConfigProvider $configProvider = null)
     {
-        $this->config = $config;
+        $this->configProvider = $configProvider;
     }
 
     /**
@@ -27,13 +27,7 @@ class RabbitMQCheck implements CheckInterface
     public function check(): ResultInterface
     {
         if ($this->isConfigured()) {
-            $connection = AmqpConnection::createFromConfig([
-                'host' => $this->config['host'],
-                'port' => $this->config['port'],
-                'user' => $this->config['user'],
-                'password' => $this->config['password'],
-                'vhost' => $this->config['vhost'],
-            ]);
+            $connection = AmqpConnection::createFromConfig($this->configProvider);
             $connection->createSession()->createProducer();
 
             return new Success();
@@ -52,13 +46,13 @@ class RabbitMQCheck implements CheckInterface
 
     protected function isConfigured(): bool
     {
-        return is_array($this->config) &&
-            isset(
-                $this->config['host'],
-                $this->config['port'],
-                $this->config['user'],
-                $this->config['password'],
-                $this->config['vhost']
-            );
+        $configuration = $this->configProvider?->getConfiguration();
+        return isset(
+            $configuration['host'],
+            $configuration['port'],
+            $configuration['user'],
+            $configuration['password'],
+            $configuration['vhost']
+        );
     }
 }

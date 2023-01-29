@@ -58,7 +58,7 @@ services:
     oro_health_check.check.rabbitmq:
         class: Oro\Bundle\HealthCheckBundle\Check\RabbitMQCheck
         arguments:
-            - '%message_queue_transport_config%'
+            - '@?oro_message_queue.transport.amqp.connection.config_provider'
         tags:
             - { name: liip_monitor.check, alias: rabbitmq_server }
 
@@ -66,7 +66,7 @@ services:
         class: Oro\Bundle\SyncBundle\Client\WebsocketClient
         arguments:
             - '@oro_sync.client.wamp.factory'
-            - '@oro_health_check.client_frontend_attributes'
+            - '@oro_health_check.client.frontend_websocket_parameters.provider'
             - '@oro_sync.authentication.ticket_provider'
 
     oro_health_check.client.connection_checker.frontend:
@@ -103,14 +103,13 @@ services:
         tags:
             - { name: liip_monitor.check, alias: maintenance_mode }
 
-    oro_health_check.client_frontend_attributes:
-        class: Oro\Bundle\SyncBundle\Client\Wamp\Factory\ClientAttributes
+    oro_health_check.client.frontend_websocket_parameters.provider:
+        class: Oro\Bundle\HealthCheckBundle\Provider\FrontendWebsocketClientParametersProvider
         public: false
         arguments:
-            - '%websocket_frontend_host%'
-            - '%websocket_frontend_port%'
-            - '%websocket_frontend_path%'
-            - "@=parameter('websocket_frontend_port') in parameter('oro_health_check_websocket_frontend_secure_ports') ? parameter('oro_health_check_websocket_frontend_secure_protocol') : 'tcp'"
+            - "@oro_sync.client.frontend_websocket_parameters.provider"
+            - '%oro_health_check_websocket_frontend_secure_ports%'
+            - '%oro_health_check_websocket_frontend_secure_protocol'
             - '%oro_health_check_websocket_frontend_ssl_context_options%'
 
     oro_health_check.helper.logger_reporter:

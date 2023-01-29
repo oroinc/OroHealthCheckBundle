@@ -9,6 +9,8 @@ use Symfony\Component\HttpFoundation\Response;
 
 class RabbitMQCheckTest extends WebTestCase
 {
+    private const CONFIG_PROVIDER_SERVICE = 'oro_message_queue.transport.amqp.connection.config_provider';
+
     protected function setUp(): void
     {
         $this->initClient([], $this->generateBasicAuthHeader());
@@ -33,7 +35,7 @@ class RabbitMQCheckTest extends WebTestCase
 
     private function getExpectedResult(): string
     {
-        $c = self::getContainer()->getParameter('message_queue_transport_config');
+        $c = self::getContainer()->get(self::CONFIG_PROVIDER_SERVICE)?->getConfiguration();
 
         $result = Skip::class;
         if (is_array($c) && isset($c['host'], $c['port'], $c['user'], $c['password'], $c['vhost'])) {
