@@ -4,56 +4,25 @@ declare(strict_types=1);
 namespace Oro\Bundle\HealthCheckBundle\Tests\Unit\DependencyInjection;
 
 use Oro\Bundle\HealthCheckBundle\DependencyInjection\OroHealthCheckExtension;
-use Oro\Bundle\TestFrameworkBundle\Test\DependencyInjection\ExtensionTestCase;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 
-class OroHealthCheckExtensionTest extends ExtensionTestCase
+class OroHealthCheckExtensionTest extends \PHPUnit\Framework\TestCase
 {
-    protected OroHealthCheckExtension $extension;
-
     public function testLoad(): void
     {
-        $this->loadExtension(new OroHealthCheckExtension());
+        $container = new ContainerBuilder();
+        $container->setParameter('oro_maintenance.driver', ['options' => ['file_path' => 'path1']]);
 
-        $this->assertDefinitionsLoaded(
-            [
-                'oro_health_check.check.file_storage',
-                'oro_health_check.check.redis',
-                'oro_health_check.check.doctrine_dbal',
-                'oro_health_check.check.mail_transport',
-                'oro_health_check.check.rabbitmq',
-                'oro_health_check.websocket_client.frontend',
-                'oro_health_check.client.connection_checker.frontend',
-                'oro_health_check.check.websocket_backend',
-                'oro_health_check.check.websocket_frontend',
-                'oro_health_check.check.maintenance_mode',
-            ]
-        );
-        $this->assertParametersLoaded(['oro_maintenance.driver']);
+        $configs = [
+            ['maintenance_driver' => ['options' => ['file_path' => 'path2']]]
+        ];
+
+        $extension = new OroHealthCheckExtension();
+        $extension->load($configs, $container);
+
         static::assertEquals(
-            [
-                'options' => [
-                    'file_path' => 'test/file/path'
-                ]
-            ],
-            $this->actualParameters['oro_maintenance.driver']
+            ['options' => ['file_path' => 'path2']],
+            $container->getParameter('oro_maintenance.driver')
         );
-    }
-
-    protected function getContainerMock(): ContainerBuilder
-    {
-        $containerBuilder = parent::getContainerMock();
-        $containerBuilder
-            ->method('getParameter')
-            ->with('oro_maintenance.driver')
-            ->willReturn(
-                [
-                    'options' => [
-                        'file_path' => 'test/file/path'
-                    ]
-                ]
-            );
-
-        return $containerBuilder;
     }
 }

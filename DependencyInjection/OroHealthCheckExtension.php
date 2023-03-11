@@ -10,13 +10,14 @@ use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 class OroHealthCheckExtension extends Extension
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
-    public function load(array $configs, ContainerBuilder $container)
+    public function load(array $configs, ContainerBuilder $container): void
     {
-        $this->configurationOverride($configs, $container);
+        $config = $this->processConfiguration($this->getConfiguration($configs, $container), $configs);
+        $this->configurationOverride($config, $container);
 
-        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
+        $loader = new Loader\YamlFileLoader($container, new FileLocator(__DIR__ . '/../Resources/config'));
         $loader->load('services.yml');
         $loader->load('search.yml');
     }
@@ -24,13 +25,17 @@ class OroHealthCheckExtension extends Extension
     /**
      * Default driver for OroMaintenanceBundle should be force-overridden if OroHealthCheckBundle is enabled
      */
-    private function configurationOverride(array $configs, ContainerBuilder $container)
+    private function configurationOverride(array $config, ContainerBuilder $container): void
     {
+        /** @var array $originalConfig */
         $originalConfig = $container->getParameter('oro_maintenance.driver');
 
-        $config = $this->processConfiguration(new Configuration(), $configs)['maintenance_driver'];
-        $config['options'] = array_merge($originalConfig['options'], $config['options']);
+        $maintenanceDriverConfig = $config['maintenance_driver'];
+        $maintenanceDriverConfig['options'] = array_merge(
+            $originalConfig['options'],
+            $maintenanceDriverConfig['options']
+        );
 
-        $container->setParameter('oro_maintenance.driver', $config);
+        $container->setParameter('oro_maintenance.driver', $maintenanceDriverConfig);
     }
 }
