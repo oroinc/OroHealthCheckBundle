@@ -13,3 +13,7 @@ oro_behat_extension:
         Health Check Status Table:
             class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Table
             selector: 'table.test-result'
+        Health Check Successful Status Elasticsearch:
+            selector:
+                type: xpath
+                locator: '//td[text()[contains(.,"Elasticsearch")]]/ancestor::tr[contains(@class, "check_result_ok")]'
