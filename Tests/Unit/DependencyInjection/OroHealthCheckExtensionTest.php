@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Oro\Bundle\HealthCheckBundle\Tests\Unit\DependencyInjection;
@@ -12,15 +13,16 @@ class OroHealthCheckExtensionTest extends \PHPUnit\Framework\TestCase
     {
         $container = new ContainerBuilder();
         $container->setParameter('oro_maintenance.driver', ['options' => ['file_path' => 'path1']]);
+        $container->setParameter('kernel.environment', 'prod');
 
         $configs = [
-            ['maintenance_driver' => ['options' => ['file_path' => 'path2']]]
+            ['maintenance_driver' => ['options' => ['file_path' => 'path2']]],
         ];
 
         $extension = new OroHealthCheckExtension();
         $extension->load($configs, $container);
 
-        static::assertEquals(
+        self::assertEquals(
             ['options' => ['file_path' => 'path2']],
             $container->getParameter('oro_maintenance.driver')
         );

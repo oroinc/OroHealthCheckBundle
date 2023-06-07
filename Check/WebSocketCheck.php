@@ -36,7 +36,7 @@ class WebSocketCheck implements CheckInterface
     public function check(): ResultInterface
     {
         if (!$this->checker->checkConnection()) {
-            return $this->strict
+            return $this->checker->isConfigured() && $this->strict
                 ? new Failure('Not available.')
                 : new Skip('Not available. Skipped as this check is not mandatory.');
         }

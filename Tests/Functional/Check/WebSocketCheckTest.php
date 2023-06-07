@@ -2,13 +2,12 @@
 
 namespace Oro\Bundle\HealthCheckBundle\Tests\Functional\Check;
 
-use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\Skip;
 use Oro\Bundle\TestFrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * CI does not run clank server.
+ * CI does not run websocket server.
  * So, we can test only scenarios when checks are failed.
  */
 class WebSocketCheckTest extends WebTestCase
@@ -33,7 +32,7 @@ class WebSocketCheckTest extends WebTestCase
             'GET',
             $this->getUrl('liip_monitor_run_single_check_http_status', ['checkId' => 'websocket_backend'])
         );
-        $this->assertResponseStatusCodeEquals($this->client->getResponse(), Response::HTTP_BAD_GATEWAY);
+        $this->assertResponseStatusCodeEquals($this->client->getResponse(), Response::HTTP_OK);
     }
 
     public function testServiceCheck()
@@ -42,6 +41,6 @@ class WebSocketCheckTest extends WebTestCase
         $this->assertInstanceOf(Skip::class, $mailTransportCheck->check());
 
         $mailTransportCheck = self::getContainer()->get('oro_health_check.check.websocket_backend');
-        $this->assertInstanceOf(Failure::class, $mailTransportCheck->check());
+        $this->assertInstanceOf(Skip::class, $mailTransportCheck->check());
     }
 }

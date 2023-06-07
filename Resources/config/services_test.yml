@@ -1,0 +1,7 @@
+services:
+
+    oro_health_check.test.client.connection_checker.frontend:
+        decorates: oro_health_check.client.connection_checker.frontend
+        decoration_priority: -255
+        parent: oro_health_check.client.connection_checker.frontend
+        class: Oro\Bundle\SyncBundle\Test\Client\ConnectionChecker
