@@ -2,6 +2,7 @@
 
 namespace Oro\Bundle\HealthCheckBundle\Provider;
 
+use Oro\Bundle\ConfigBundle\Config\ConfigManager;
 use Oro\Bundle\SyncBundle\Provider\WebsocketClientParametersProvider;
 use Oro\Bundle\SyncBundle\Provider\WebsocketClientParametersProviderInterface;
 
@@ -18,6 +19,8 @@ class FrontendWebsocketClientParametersProvider implements WebsocketClientParame
 
     private array $contextOptions;
 
+    private ?ConfigManager $configManager = null;
+
     public function __construct(
         WebsocketClientParametersProvider $clientParametersProvider,
         array $frontendSecurePorts,
@@ -26,11 +29,7 @@ class FrontendWebsocketClientParametersProvider implements WebsocketClientParame
     ) {
         $this->clientParametersProvider = $clientParametersProvider;
 
-        $host = $clientParametersProvider->getHost();
-        if ($host === '*') {
-            $host = '127.0.0.1';
-        }
-        $this->host = $host;
+        $this->host = $clientParametersProvider->getHost();
 
         $this->transport = in_array($clientParametersProvider->getPort(), $frontendSecurePorts)
             ? $frontendSecureProtocol
@@ -38,9 +37,22 @@ class FrontendWebsocketClientParametersProvider implements WebsocketClientParame
         $this->contextOptions = $frontendSslContextOptions;
     }
 
+    public function setConfigManager(ConfigManager $configManager): void
+    {
+        $this->configManager = $configManager;
+    }
+
     public function getHost(): string
     {
-        return $this->host;
+        $host = $this->host === '*' ? '127.0.0.1' : $this->host;
+
+        if ($this->configManager && $this->host === '*') {
+            $appUrl = $this->configManager->get('oro_ui.application_url');
+            $parsedAppUrl = parse_url($appUrl);
+            $host = $parsedAppUrl['host'];
+        }
+
+        return $host;
     }
 
     public function getPort(): int
@@ -61,5 +73,10 @@ class FrontendWebsocketClientParametersProvider implements WebsocketClientParame
     public function getContextOptions(): array
     {
         return $this->contextOptions;
+    }
+
+    public function getUserAgent(): ?string
+    {
+        return $this->clientParametersProvider->getUserAgent();
     }
 }

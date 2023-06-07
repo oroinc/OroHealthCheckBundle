@@ -75,6 +75,7 @@ services:
             - '@oro_health_check.websocket_client.frontend'
             - '@oro_distribution.handler.application_status'
         calls:
+            - [setWebsocketClientParametersProvider, ['@oro_sync.client.backend_websocket_parameters.provider']]
             - [setLogger, ['@logger']]
         tags:
             - { name: monolog.logger, channel: oro_websocket }
@@ -105,12 +106,13 @@ services:
 
     oro_health_check.client.frontend_websocket_parameters.provider:
         class: Oro\Bundle\HealthCheckBundle\Provider\FrontendWebsocketClientParametersProvider
-        public: false
         arguments:
             - "@oro_sync.client.frontend_websocket_parameters.provider"
             - '%oro_health_check_websocket_frontend_secure_ports%'
-            - '%oro_health_check_websocket_frontend_secure_protocol'
+            - '%oro_health_check_websocket_frontend_secure_protocol%'
             - '%oro_health_check_websocket_frontend_ssl_context_options%'
+        calls:
+            - ['setConfigManager', ['@oro_config.manager']]
 
     oro_health_check.helper.logger_reporter:
         class: Oro\Bundle\HealthCheckBundle\Helper\LoggerReporter

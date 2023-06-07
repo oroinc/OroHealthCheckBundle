@@ -7,11 +7,11 @@ use Laminas\Diagnostics\Result\Skip;
 use Laminas\Diagnostics\Result\Success;
 use Oro\Bundle\HealthCheckBundle\Check\WebSocketCheck;
 use Oro\Bundle\SyncBundle\Client\ConnectionChecker;
+use PHPUnit\Framework\MockObject\MockObject;
 
 class WebSocketCheckTest extends \PHPUnit\Framework\TestCase
 {
-    /** @var ConnectionChecker|\PHPUnit\Framework\MockObject\MockObject */
-    private $checker;
+    private ConnectionChecker|MockObject $checker;
 
     protected function setUp(): void
     {
@@ -22,6 +22,8 @@ class WebSocketCheckTest extends \PHPUnit\Framework\TestCase
     {
         $check = new WebSocketCheck($this->checker, 'test');
 
+        $this->checker->expects(self::never())
+            ->method('isConfigured');
         $this->checker->expects(self::once())
             ->method('checkConnection')
             ->willReturn(true);
@@ -29,10 +31,27 @@ class WebSocketCheckTest extends \PHPUnit\Framework\TestCase
         self::assertEquals(new Success(), $check->check());
     }
 
+    public function testCheckWhenNotConfigured(): void
+    {
+        $check = new WebSocketCheck($this->checker, 'test');
+
+        $this->checker->expects(self::once())
+            ->method('isConfigured')
+            ->willReturn(false);
+        $this->checker->expects(self::once())
+            ->method('checkConnection')
+            ->willReturn(false);
+
+        self::assertEquals(new Skip('Not available. Skipped as this check is not mandatory.'), $check->check());
+    }
+
     public function testCheckFailure(): void
     {
         $check = new WebSocketCheck($this->checker, 'test');
 
+        $this->checker->expects(self::once())
+            ->method('isConfigured')
+            ->willReturn(true);
         $this->checker->expects(self::once())
             ->method('checkConnection')
             ->willReturn(false);
@@ -44,6 +63,9 @@ class WebSocketCheckTest extends \PHPUnit\Framework\TestCase
     {
         $check = new WebSocketCheck($this->checker, 'test', false);
 
+        $this->checker->expects(self::once())
+            ->method('isConfigured')
+            ->willReturn(true);
         $this->checker->expects(self::once())
             ->method('checkConnection')
             ->willReturn(false);
