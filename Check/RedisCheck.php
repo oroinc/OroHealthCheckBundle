@@ -3,6 +3,7 @@
 namespace Oro\Bundle\HealthCheckBundle\Check;
 
 use Laminas\Diagnostics\Check\CheckInterface;
+use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\ResultInterface;
 use Laminas\Diagnostics\Result\Success;
 use Predis\Client as PredisClient;
@@ -29,9 +30,18 @@ class RedisCheck implements CheckInterface
      */
     public function check(): ResultInterface
     {
-        $this->client->ping();
+        try {
+            $ping = $this->client?->ping();
+            $payload = $ping?->getPayload();
+        } catch (\Throwable $throwable) {
+            $payload = null;
+        }
 
-        return new Success();
+        if ($payload === 'PONG') {
+            return new Success();
+        } else {
+            return new Failure();
+        }
     }
 
     /**
