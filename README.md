@@ -102,7 +102,7 @@ For the _Apache_ web server (in the `.htaccess` file)
 
     # Maintenance mode rewrites
     RewriteCond %{DOCUMENT_ROOT}/maintenance.html -f
-    RewriteCond %{DOCUMENT_ROOT}/../var/cache/maintenance_lock -f
+    RewriteCond %{DOCUMENT_ROOT}/../var/maintenance/maintenance_lock -f
     RewriteCond %{SCRIPT_FILENAME} !maintenance.html
     RewriteRule ^.*$ /maintenance.html [R=503,L]
     ErrorDocument 503 /maintenance.html
@@ -113,7 +113,7 @@ For the _Nginx_ web server (in the host configuration)
 ```
 server {
     location / {
-        if (-f /var/www/var/cache/maintenance_lock) {
+        if (-f /var/www/var/maintenance/maintenance_lock) {
             return 503;
         }
     }
@@ -178,7 +178,7 @@ The following example illustrates the configuration which can be used in _config
 oro_health_check:
     maintenance_driver:
         options:
-            file_path: %kernel.project_dir%/var/cache/maintenance_lock
+            file_path: %kernel.project_dir%/var/maintenance/maintenance_lock
 ```
 
 ## Build your own check
