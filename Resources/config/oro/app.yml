@@ -6,9 +6,10 @@ security:
         healthcheck_http_status_checks:
             pattern:   /healthcheck/http_status_check(s$|/.*)
             provider:  chain_provider
-            anonymous: true
+
+oro_security:
     access_control:
-        - { path: /healthcheck/http_status_check(s$|/.*), roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^%web_backend_prefix%/healthcheck/http_status_check(s$|/.*), roles: PUBLIC_ACCESS }
 
 oro_maintenance:
     authorized:
