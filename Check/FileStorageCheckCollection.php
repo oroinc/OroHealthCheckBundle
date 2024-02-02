@@ -30,8 +30,14 @@ class FileStorageCheckCollection implements CheckCollectionInterface
         $checks = [];
 
         foreach ($this->checkDirs as $key => $checkDir) {
-            $check = new DirWritable($checkDir);
-            $check->setLabel(sprintf('Check if "%s" is writable', $checkDir));
+            if (is_string($checkDir)) {
+                $checkDir = [
+                    'dir' => $checkDir,
+                    'title' => $checkDir
+                ];
+            }
+            $check = new DirWritable($checkDir['dir']);
+            $check->setLabel(sprintf('Check if "%s" directory is writable', $checkDir['title']));
 
             $checks[$key] = $check;
         }

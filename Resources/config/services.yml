@@ -22,10 +22,10 @@ services:
         arguments:
             - '%kernel.project_dir%'
             -
-                fs_var_cache_prod: '%kernel.cache_dir%'
-                fs_var_logs: '%kernel.logs_dir%'
-                fs_var_data: '%kernel.project_dir%/var/data'
-                fs_public_media: '%kernel.project_dir%/public/media'
+                fs_var_cache_prod: { dir: '%kernel.cache_dir%', title: 'cache' }
+                fs_var_logs: { dir: '%kernel.logs_dir%', title: 'logs' }
+                fs_var_data: { dir: '%kernel.project_dir%/var/data', title: 'var/data' }
+                fs_public_media: { dir: '%kernel.project_dir%/public/media', title: 'public/media' }
         tags:
             - { name: liip_monitor.check_collection, alias: file_storage }
 
