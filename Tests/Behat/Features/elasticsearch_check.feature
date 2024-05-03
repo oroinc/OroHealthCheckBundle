@@ -1,3 +1,4 @@
+@regression
 @elasticsearch
 
 Feature: Elasticsearch check
