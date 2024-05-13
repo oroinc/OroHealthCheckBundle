@@ -1,3 +1,4 @@
+@regression
 @ticket-BAP-20793
 
 Feature: MailTransport check
