@@ -9,7 +9,7 @@ using the same configuration and environment that the application uses.
 
  - [Purpose](#purpose)
  - [Basic usage](#basic-usage)
- - [HealthCheck under Maintenance mode](#рealthсheck-under-maintenance-mode)
+ - [HealthCheck under Maintenance mode](#рealthcheck-under-maintenance-mode)
  - [Built in checks](#built-in-checks)
  - [Build your own check](#build-your-own-check)
  - [Links](#links)
