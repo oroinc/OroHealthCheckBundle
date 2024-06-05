@@ -16,7 +16,7 @@ class RedisCheckCollectionTest extends \PHPUnit\Framework\TestCase
         $this->check = new RedisCheckCollection(
             [
                 'Redis cache' => null,
-                'Redis doctrine cache'=> new Client(),
+                'Redis doctrine cache' => new Client(),
                 'Redis session cache' => null,
             ]
         );
