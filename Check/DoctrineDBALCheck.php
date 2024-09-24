@@ -6,9 +6,7 @@ use Liip\MonitorBundle\Check\DoctrineDbal;
 
 class DoctrineDBALCheck extends DoctrineDbal
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getLabel()
     {
         return 'Check if Doctrine DBAL is available';

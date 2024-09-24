@@ -17,9 +17,7 @@ class RedisCheckCollection implements CheckCollectionInterface
         $this->clients = array_filter($clients);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getChecks(): array
     {
         $checks = [];

@@ -16,6 +16,7 @@ class RedisCheckTest extends TestCase
 
     private RedisCheck $check;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->client = $this->createMock(PredisClient::class);

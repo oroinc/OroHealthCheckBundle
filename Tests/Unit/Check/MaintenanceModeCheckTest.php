@@ -14,6 +14,7 @@ class MaintenanceModeCheckTest extends \PHPUnit\Framework\TestCase
 
     private MaintenanceModeCheck $check;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->driverFactory = $this->createMock(DriverFactory::class);

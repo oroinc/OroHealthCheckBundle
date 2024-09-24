@@ -16,6 +16,7 @@ class MailTransportCheckTest extends \PHPUnit\Framework\TestCase
 
     private MailTransportCheck $check;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->connectionChecker = $this->createMock(ConnectionCheckerInterface::class);

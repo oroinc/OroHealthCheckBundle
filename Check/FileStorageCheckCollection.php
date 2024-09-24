@@ -22,9 +22,7 @@ class FileStorageCheckCollection implements CheckCollectionInterface
         $this->checkDirs = $checkDirs;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getChecks(): array
     {
         $checks = [];

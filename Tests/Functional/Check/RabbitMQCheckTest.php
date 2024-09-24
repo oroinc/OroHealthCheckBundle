@@ -11,6 +11,7 @@ class RabbitMQCheckTest extends WebTestCase
 {
     private const CONFIG_PROVIDER_SERVICE = 'oro_message_queue.transport.amqp.connection.config_provider';
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->initClient([], $this->generateBasicAuthHeader());

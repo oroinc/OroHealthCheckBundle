@@ -31,6 +31,7 @@ class MailTransportCheck implements CheckInterface
         $this->translator = $translator;
     }
 
+    #[\Override]
     public function check(): Failure|Success|Warning
     {
         $dsn = Dsn::fromString($this->transportDsn);
@@ -48,9 +49,7 @@ class MailTransportCheck implements CheckInterface
             : new Failure($connectionError);
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getLabel(): string
     {
         return 'Check if Mail Transport is available';

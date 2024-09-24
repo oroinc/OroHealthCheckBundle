@@ -12,9 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
  */
 class WebSocketCheckTest extends WebTestCase
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function setUp(): void
     {
         $this->initClient([], $this->generateBasicAuthHeader());

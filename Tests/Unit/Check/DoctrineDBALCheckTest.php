@@ -10,6 +10,7 @@ class DoctrineDBALCheckTest extends \PHPUnit\Framework\TestCase
     /** @var DoctrineDbalCheck */
     private $check;
 
+    #[\Override]
     protected function setUp(): void
     {
         /** @var ManagerRegistry $doctrine */

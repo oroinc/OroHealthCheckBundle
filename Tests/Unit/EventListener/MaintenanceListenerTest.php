@@ -16,6 +16,7 @@ class MaintenanceListenerTest extends \PHPUnit\Framework\TestCase
 
     private MaintenanceListener $listener;
 
+    #[\Override]
     protected function setUp(): void
     {
         $this->baseListener = $this->createMock(BaseMaintenanceListener::class);

@@ -30,9 +30,7 @@ class WebSocketCheck implements CheckInterface
         $this->strict = $strict;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function check(): ResultInterface
     {
         if (!$this->checker->checkConnection()) {
@@ -44,9 +42,7 @@ class WebSocketCheck implements CheckInterface
         return new Success();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getLabel(): string
     {
         return sprintf('Check if WebSocket %s connection can be established', $this->type);

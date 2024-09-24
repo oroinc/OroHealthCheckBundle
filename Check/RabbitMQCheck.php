@@ -21,9 +21,7 @@ class RabbitMQCheck implements CheckInterface
         $this->configProvider = $configProvider;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function check(): ResultInterface
     {
         if ($this->isConfigured()) {
@@ -36,9 +34,7 @@ class RabbitMQCheck implements CheckInterface
         return new Skip('RabbitMQ connection is not configured. Check Skipped.');
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getLabel(): string
     {
         return 'Check if RabbitMQ is available in case it is configured';

@@ -15,9 +15,7 @@ class RedisCheckTest extends WebTestCase
         'redis_doctrine_cache' => 'oro.cache.doctrine.redis_provider'
     ];
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function setUp(): void
     {
         $this->initClient([], $this->generateBasicAuthHeader());

@@ -196,9 +196,7 @@ use Laminas\Diagnostics\Result\Failure;
 
 class CustomCheck implements CheckInterface
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function check(): ResultInterface
     {
         $result = <result of some check>;
@@ -206,9 +204,7 @@ class CustomCheck implements CheckInterface
         return $result ? new Success() : new Failure();
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getLabel(): string
     {
         return 'Custom check verifies ...';
@@ -236,9 +232,7 @@ use Laminas\Diagnostics\Check\CheckCollectionInterface;
 
 class CustomCheckCollection implements CheckCollectionInterface
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getChecks(): array
     {
         return [new CustomCheck()];

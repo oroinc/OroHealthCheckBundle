@@ -24,9 +24,7 @@ class ElasticsearchCheck implements CheckInterface
     ) {
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function check(): ResultInterface
     {
         if ($this->isConfigured()) {
@@ -44,9 +42,7 @@ class ElasticsearchCheck implements CheckInterface
         return ElasticsearchEngine::ENGINE_NAME === $this->engineName;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getLabel(): string
     {
         return 'Check if Elasticsearch is available in case it is configured';

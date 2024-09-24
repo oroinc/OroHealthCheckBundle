@@ -25,9 +25,7 @@ class LoggerReporter implements ReporterInterface
         $this->logger = $logger;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function onAfterRun(CheckInterface $check, ResultInterface $result, $checkAlias = null)
     {
         if ($result instanceof FailureInterface) {
@@ -39,30 +37,22 @@ class LoggerReporter implements ReporterInterface
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function onStart(\ArrayObject $checks, $runnerConfig)
     {
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function onBeforeRun(CheckInterface $check, $checkAlias = null)
     {
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function onStop(ResultsCollection $results)
     {
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function onFinish(ResultsCollection $results)
     {
     }

@@ -25,9 +25,7 @@ class RedisCheck implements CheckInterface
         $this->type = $type;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function check(): ResultInterface
     {
         try {
@@ -44,9 +42,7 @@ class RedisCheck implements CheckInterface
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getLabel()
     {
         return sprintf('Check if %s is available', $this->type);

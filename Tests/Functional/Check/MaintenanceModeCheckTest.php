@@ -14,9 +14,7 @@ class MaintenanceModeCheckTest extends WebTestCase
 
     private AbstractDriver $driver;
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function setUp(): void
     {
         $this->initClient([], $this->generateBasicAuthHeader());
@@ -27,6 +25,7 @@ class MaintenanceModeCheckTest extends WebTestCase
         $this->driver = $container->get('oro_maintenance.driver.factory')->getDriver();
     }
 
+    #[\Override]
     protected function tearDown(): void
     {
         $this->driver->unlock();

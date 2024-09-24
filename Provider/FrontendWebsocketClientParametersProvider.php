@@ -39,6 +39,7 @@ class FrontendWebsocketClientParametersProvider implements WebsocketClientParame
         $this->contextOptions = $frontendSslContextOptions;
     }
 
+    #[\Override]
     public function getHost(): string
     {
         $host = $this->host;
@@ -52,26 +53,31 @@ class FrontendWebsocketClientParametersProvider implements WebsocketClientParame
         return $host;
     }
 
+    #[\Override]
     public function getPort(): int
     {
         return $this->clientParametersProvider->getPort();
     }
 
+    #[\Override]
     public function getPath(): string
     {
         return $this->clientParametersProvider->getPath();
     }
 
+    #[\Override]
     public function getTransport(): string
     {
         return $this->transport;
     }
 
+    #[\Override]
     public function getContextOptions(): array
     {
         return $this->contextOptions;
     }
 
+    #[\Override]
     public function getUserAgent(): ?string
     {
         return $this->clientParametersProvider->getUserAgent();

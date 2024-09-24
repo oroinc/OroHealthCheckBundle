@@ -22,6 +22,7 @@ class MaintenanceModeCheck implements CheckInterface
     /**
      * @return Success
      */
+    #[\Override]
     public function check(): ResultInterface
     {
         $driver = $this->driverFactory->getDriver();
@@ -29,9 +30,7 @@ class MaintenanceModeCheck implements CheckInterface
         return !$driver->decide() ? new Success('Off') : new Success('On');
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function getLabel(): string
     {
         return 'Check if Maintenance Mode is running';

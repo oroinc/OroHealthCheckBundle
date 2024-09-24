@@ -10,9 +10,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
  */
 class MailTransportCheckPass implements CompilerPassInterface
 {
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     public function process(ContainerBuilder $container): void
     {
         if (!$container->hasDefinition('mailer.transports')) {

@@ -14,9 +14,7 @@ class MailTransportCheckTest extends WebTestCase
 {
     use ClassExtensionTrait;
 
-    /**
-     * {@inheritdoc}
-     */
+    #[\Override]
     protected function setUp(): void
     {
         $this->initClient([], self::generateBasicAuthHeader());
