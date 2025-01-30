@@ -53,7 +53,7 @@ class MailTransportCheckTest extends \PHPUnit\Framework\TestCase
         $this->connectionChecker->expects(self::once())
             ->method('checkConnection')
             ->with(Dsn::fromString('null://null'))
-            ->willReturnCallback(static function (Dsn $dsn, string &$error = null) {
+            ->willReturnCallback(static function (Dsn $dsn, ?string &$error = null) {
                 $error = 'Error message';
 
                 return false;
