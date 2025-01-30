@@ -16,7 +16,7 @@ class RabbitMQCheck implements CheckInterface
 {
     protected ?TransportConnectionConfigProvider $configProvider;
 
-    public function __construct(TransportConnectionConfigProvider $configProvider = null)
+    public function __construct(?TransportConnectionConfigProvider $configProvider = null)
     {
         $this->configProvider = $configProvider;
     }
