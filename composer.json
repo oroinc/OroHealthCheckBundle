@@ -16,7 +16,7 @@
     },
     "autoload": {
         "psr-4": { "Oro\\Bundle\\HealthCheckBundle\\": "" },
-        "exclude-from-classmap": ["/Tests/"]
+        "exclude-from-classmap": ["**/Tests/"]
     },
     "repositories": {
         "oro": {
