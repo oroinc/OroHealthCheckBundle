@@ -9,7 +9,7 @@ security:
 
 oro_security:
     access_control:
-        - { path: ^%web_backend_prefix%/healthcheck/http_status_check(s$|/.*), roles: PUBLIC_ACCESS }
+        - { path: ^/healthcheck/http_status_check(s$|/.*), roles: PUBLIC_ACCESS }
 
 oro_maintenance:
     authorized:
