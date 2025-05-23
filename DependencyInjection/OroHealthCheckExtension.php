@@ -41,5 +41,12 @@ class OroHealthCheckExtension extends Extension
         );
 
         $container->setParameter('oro_maintenance.driver', $maintenanceDriverConfig);
+
+        if (isset($config['last_cron_execution_cache']['ttl'])) {
+            $container->setParameter(
+                'oro_health_check.last_cron_execution_cache.ttl',
+                $config['last_cron_execution_cache']['ttl']
+            );
+        }
     }
 }
