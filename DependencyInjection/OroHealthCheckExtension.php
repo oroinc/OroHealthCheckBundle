@@ -27,9 +27,20 @@ class OroHealthCheckExtension extends Extension
     {
         $originalConfig = $container->getParameter('oro_maintenance.driver');
 
-        $config = $this->processConfiguration(new Configuration(), $configs)['maintenance_driver'];
-        $config['options'] = array_merge($originalConfig['options'], $config['options']);
+        $config = $this->processConfiguration(new Configuration(), $configs);
+        $maintenanceDriverConfig = $config['maintenance_driver'];
+        $maintenanceDriverConfig['options'] = array_merge(
+            $originalConfig['options'],
+            $maintenanceDriverConfig['options']
+        );
 
-        $container->setParameter('oro_maintenance.driver', $config);
+        $container->setParameter('oro_maintenance.driver', $maintenanceDriverConfig);
+
+        if (isset($config['last_cron_execution_cache']['ttl'])) {
+            $container->setParameter(
+                'oro_health_check.last_cron_execution_cache.ttl',
+                $config['last_cron_execution_cache']['ttl']
+            );
+        }
     }
 }

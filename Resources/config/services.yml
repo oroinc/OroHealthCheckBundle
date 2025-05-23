@@ -120,3 +120,18 @@ services:
         class: Oro\Bundle\HealthCheckBundle\Helper\LoggerReporter
         arguments:
             - '@logger'
+
+    oro_health_check.check.cron:
+        class: Oro\Bundle\HealthCheckBundle\Check\CronCheck
+        arguments:
+            - '@oro_cron.state_cache'
+            - '%oro_health_check.last_cron_execution_cache.ttl%'
+        tags:
+            - { name: liip_monitor.check, alias: oro_cron }
+
+    oro_health_check.check.mongo_db:
+        class: Oro\Bundle\HealthCheckBundle\Check\MongoCheck
+        arguments:
+            - '@?oro.mongodb.driver.config.gaufrette.public_adapter'
+        tags:
+            - { name: liip_monitor.check, alias: mongo_db }
