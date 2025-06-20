@@ -28,6 +28,16 @@ class Configuration implements ConfigurationInterface
                         ->end()
                     ->end()
                 ->end()
+                ->arrayNode('last_cron_execution_cache')
+                ->addDefaultsIfNotSet()
+                    ->info('Describes the configuration options for cron last execution cache command.')
+                    ->children()
+                        ->integerNode('ttl')
+                        ->info('Set the TTL for the last cron command execution to check the health of cron commands.')
+                        ->defaultValue(900) // 15 min
+                        ->end()
+                    ->end()
+                ->end()
             ->end();
 
         return $treeBuilder;
