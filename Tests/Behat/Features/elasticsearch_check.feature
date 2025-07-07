@@ -5,7 +5,7 @@ Feature: Elasticsearch check
 
   Scenario: Check if Elasticsearch is available
     Given login as administrator
-    When I am on "/admin/healthcheck"
+    When I go to healthcheck page
     Then Page title equals to "Health Check"
     And I wait for "Health Check Status Table Rows" element to appear
     And I should see next rows in "Health Check Status Table" table
