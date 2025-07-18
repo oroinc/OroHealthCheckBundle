@@ -10,7 +10,7 @@ Feature: MailTransport check
     Given login as administrator
 
   Scenario: Check if Mail Transport is available
-    When I am on "/admin/healthcheck"
+    When I go to healthcheck page
     Then Page title equals to "Health Check"
     And I wait for "Health Check Status Table Rows" element to appear
     And I should see next rows in "Health Check Status Table" table
