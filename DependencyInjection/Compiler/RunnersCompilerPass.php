@@ -13,7 +13,8 @@ class RunnersCompilerPass implements CompilerPassInterface
     #[\Override]
     public function process(ContainerBuilder $container)
     {
-        if (!$container->hasParameter('liip_monitor.runners')
+        if (
+            !$container->hasParameter('liip_monitor.runners')
             || !$container->hasDefinition('oro_health_check.helper.logger_reporter')
         ) {
             return;

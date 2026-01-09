@@ -33,8 +33,10 @@ class CronCheck implements CheckInterface
         $lastExecutionItem = $this->cache->getItem(CronCommand::CRON_LAST_EXECUTION_DATA);
         $lastExecution = $lastExecutionItem->get();
 
-        if (!$lastExecution instanceof \DateTime
-            || ($nowDateTime->getTimestamp() - $lastExecution->getTimestamp()) > $this->cronLastExecutionCacheTtl) {
+        if (
+            !$lastExecution instanceof \DateTime
+            || ($nowDateTime->getTimestamp() - $lastExecution->getTimestamp()) > $this->cronLastExecutionCacheTtl
+        ) {
             return new Failure();
         }
 

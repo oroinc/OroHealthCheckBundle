@@ -16,6 +16,6 @@ class FeatureContext extends OroFeatureContext implements AppKernelAwareInterfac
     public function iGoToHealthcheckPage()
     {
         $uri = $this->getAppContainer()->get('router')->generate('oro_default');
-        $this->visitPath($uri.'healthcheck');
+        $this->visitPath($uri . 'healthcheck');
     }
 }
