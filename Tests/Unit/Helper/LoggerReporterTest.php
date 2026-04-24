@@ -1,6 +1,6 @@
 <?php
 
-namespace Oro\Bundle\HealthCheckBundle\Tests\Unit\EventListener;
+namespace Oro\Bundle\HealthCheckBundle\Tests\Unit\Helper;
 
 use Laminas\Diagnostics\Check\CheckInterface;
 use Laminas\Diagnostics\Result\FailureInterface;
