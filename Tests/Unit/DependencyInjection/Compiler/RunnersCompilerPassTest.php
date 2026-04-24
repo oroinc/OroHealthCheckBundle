@@ -1,6 +1,6 @@
 <?php
 
-namespace Oro\Bundle\HealthCheckBundle\Tests\Unit\EventListener;
+namespace Oro\Bundle\HealthCheckBundle\Tests\Unit\DependencyInjection\Compiler;
 
 use Oro\Bundle\HealthCheckBundle\DependencyInjection\Compiler\RunnersCompilerPass;
 use Symfony\Component\DependencyInjection\ContainerBuilder;
