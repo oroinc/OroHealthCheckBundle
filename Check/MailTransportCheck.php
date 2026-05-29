@@ -11,24 +11,15 @@ use Symfony\Component\Mailer\Transport\Dsn;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
- * Class for check mail transport configuration
+ * Checks mail transport configuration.
  */
 class MailTransportCheck implements CheckInterface
 {
-    private string $transportDsn;
-
-    private ConnectionCheckerInterface $connectionChecker;
-
-    private TranslatorInterface $translator;
-
     public function __construct(
-        string $transportDsn,
-        ConnectionCheckerInterface $connectionChecker,
-        TranslatorInterface $translator
+        private readonly string $transportDsn,
+        private readonly ConnectionCheckerInterface $connectionChecker,
+        private readonly TranslatorInterface $translator
     ) {
-        $this->transportDsn = $transportDsn;
-        $this->connectionChecker = $connectionChecker;
-        $this->translator = $translator;
     }
 
     #[\Override]
@@ -37,16 +28,18 @@ class MailTransportCheck implements CheckInterface
         $dsn = Dsn::fromString($this->transportDsn);
 
         if (!$this->connectionChecker->supports($dsn)) {
-            return new Warning(
-                $this->translator->trans(
-                    'oro.healthcheck.check.mail_transport_check.no_transport_connection_checkers.error'
-                )
-            );
+            return new Warning($this->translator->trans(
+                'oro.healthcheck.check.mail_transport_check.no_transport_connection_checkers.error'
+            ));
         }
 
-        return $this->connectionChecker->checkConnection($dsn, $connectionError)
-            ? new Success()
-            : new Failure($connectionError);
+        if (!$this->connectionChecker->checkConnection($dsn)) {
+            return new Failure($this->translator->trans(
+                'oro.healthcheck.check.mail_transport_check.connection_failed.error'
+            ));
+        }
+
+        return new Success();
     }
 
     #[\Override]

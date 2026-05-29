@@ -7,13 +7,14 @@ use Laminas\Diagnostics\Result\Success;
 use Laminas\Diagnostics\Result\Warning;
 use Oro\Bundle\EmailBundle\Mailer\Checker\ConnectionCheckerInterface;
 use Oro\Bundle\HealthCheckBundle\Check\MailTransportCheck;
+use PHPUnit\Framework\MockObject\MockObject;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\Mailer\Transport\Dsn;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
-class MailTransportCheckTest extends \PHPUnit\Framework\TestCase
+class MailTransportCheckTest extends TestCase
 {
-    private ConnectionCheckerInterface|\PHPUnit\Framework\MockObject\MockObject $connectionChecker;
-
+    private ConnectionCheckerInterface&MockObject $connectionChecker;
     private MailTransportCheck $check;
 
     #[\Override]
@@ -53,13 +54,12 @@ class MailTransportCheckTest extends \PHPUnit\Framework\TestCase
         $this->connectionChecker->expects(self::once())
             ->method('checkConnection')
             ->with(Dsn::fromString('null://null'))
-            ->willReturnCallback(static function (Dsn $dsn, ?string &$error = null) {
-                $error = 'Error message';
+            ->willReturn(false);
 
-                return false;
-            });
-
-        self::assertEquals(new Failure('Error message'), $this->check->check());
+        self::assertEquals(
+            new Failure('oro.healthcheck.check.mail_transport_check.connection_failed.error.translated'),
+            $this->check->check()
+        );
     }
 
     public function testCheckSuccess(): void
