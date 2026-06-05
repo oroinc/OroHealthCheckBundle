@@ -8,6 +8,8 @@ oro_behat_extension:
                 - '@OroHealthCheckBundle/Tests/Behat/Features'
 
     elements:
+        Health Check Status Table Rows:
+            selector: 'table.test-result tr'
         Health Check Status Table:
             class: Oro\Bundle\TestFrameworkBundle\Behat\Element\Table
             selector: 'table.test-result'
