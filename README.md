@@ -258,3 +258,7 @@ Resources
 
 [1]: https://github.com/liip/LiipMonitorBundle
 [2]: https://github.com/zendframework/ZendDiagnostics
+
+## License
+
+[OSL-3.0](LICENSE) Copyright (c) 2026 Oro Inc.
