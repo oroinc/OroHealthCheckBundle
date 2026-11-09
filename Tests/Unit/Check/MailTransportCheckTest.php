@@ -81,4 +81,29 @@ class MailTransportCheckTest extends TestCase
     {
         self::assertEquals('Check if Mail Transport is available', $this->check->getLabel());
     }
+
+    public function testCheckGivesFallbackDsnWithAllItsOptions(): void
+    {
+        $fallbackDsn = 'smtp://mail.example.com:587?require_tls=1&ssl[cafile]=/certs/ca.crt';
+        $translator = $this->createMock(TranslatorInterface::class);
+        $check = new MailTransportCheck(
+            'oro://system-config?fallback=' . $fallbackDsn,
+            $this->connectionChecker,
+            $translator
+        );
+
+        $this->connectionChecker->expects(self::once())
+            ->method('supports')
+            ->with(self::callback(static function (Dsn $dsn) use ($fallbackDsn) {
+                self::assertSame($fallbackDsn, $dsn->getOption('fallback'));
+
+                return true;
+            }))
+            ->willReturn(true);
+        $this->connectionChecker->expects(self::once())
+            ->method('checkConnection')
+            ->willReturn(true);
+
+        self::assertEquals(new Success(), $check->check());
+    }
 }

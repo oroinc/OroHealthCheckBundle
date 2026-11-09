@@ -7,6 +7,7 @@ use Laminas\Diagnostics\Result\Failure;
 use Laminas\Diagnostics\Result\Success;
 use Laminas\Diagnostics\Result\Warning;
 use Oro\Bundle\EmailBundle\Mailer\Checker\ConnectionCheckerInterface;
+use Oro\Bundle\EmailBundle\Mailer\Transport\SystemConfigTransportDsn;
 use Symfony\Component\Mailer\Transport\Dsn;
 use Symfony\Contracts\Translation\TranslatorInterface;
 
@@ -25,7 +26,7 @@ class MailTransportCheck implements CheckInterface
     #[\Override]
     public function check(): Failure|Success|Warning
     {
-        $dsn = Dsn::fromString($this->transportDsn);
+        $dsn = Dsn::fromString(SystemConfigTransportDsn::encodeFallback($this->transportDsn));
 
         if (!$this->connectionChecker->supports($dsn)) {
             return new Warning($this->translator->trans(
